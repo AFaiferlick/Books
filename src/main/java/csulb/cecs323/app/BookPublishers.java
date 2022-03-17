@@ -22,6 +22,7 @@ import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.*;
 
 /**
  * A simple application to demonstrate how to persist an object in JPA.
@@ -86,6 +87,41 @@ public class BookPublishers {
       // Commit the changes so that the new data persists and is visible to other users.
       tx.commit();
       LOGGER.fine("End of Transaction");
+      
+      //Variables
+      Scanner in = new Scanner(System.in); //Allows user input
+      boolean isValid = false; //Used to validate user input
+      
+      //End of Variables
+      
+      
+      //To-Do: 
+      //-Finish WritingGroup.java, IndividualAuthor.java, AdHocTeam.java files. 
+      //-Implement the files stated above to be subclasses of AuthorEntity.java. 
+      //-Implement all One to Many and Many to Many relationships. As seen in diagram from instructions document.
+      //-Complete require menu operations
+      //-Complete validation requirments (See rubric)
+      //-...For full list of requirments, see instructions document and rubric from dropbox
+      
+      
+      //Start of Menu Operations
+      /**
+       * Menu Operations From Rubric:
+       * -Add writing group
+       * -Add Individual Author
+       * -Add Ad Hoc Team
+       * -Add author to an Ad Hoc Team
+       * -Add new publisher
+       * -Add new book
+       * -List information about a specific Publisher
+       * -List information about a specific book
+       * -List information about a specific writing group
+       * -Delete a book
+       * -Update a book
+       * -List primary key information for publishers, books, and Authoring Entities
+       */
+      //End of Menu Operations
+
 
    } // End of the main method
 
