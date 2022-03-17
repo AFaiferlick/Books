@@ -32,7 +32,7 @@ import java.util.logging.Logger;
  *     Originally provided by Dr. Alvaro Monge of CSULB, and subsequently modified by Dave Brown.
  * </p>
  */
-public class CarClub {
+public class BookPublishers {
    /**
     * You will likely need the entityManager in a great many functions throughout your application.
     * Rather than make this a global variable, we will make it an instance variable within the CarClub
@@ -47,23 +47,23 @@ public class CarClub {
     * Here also, we want to make sure that the one Logger instance is readily available throughout the
     * application, without resorting to creating a global variable.
     */
-   private static final Logger LOGGER = Logger.getLogger(CarClub.class.getName());
+   private static final Logger LOGGER = Logger.getLogger(BookPublishers.class.getName());
 
    /**
     * The constructor for the CarClub class.  All that it does is stash the provided EntityManager
     * for use later in the application.
     * @param manager    The EntityManager that we will use.
     */
-   public CarClub(EntityManager manager) {
+   public BookPublishers(EntityManager manager) {
       this.entityManager = manager;
    }
 
    public static void main(String[] args) {
       LOGGER.fine("Creating EntityManagerFactory and EntityManager");
-      EntityManagerFactory factory = Persistence.createEntityManagerFactory("CarClub");
+      EntityManagerFactory factory = Persistence.createEntityManagerFactory("BookPublishers");
       EntityManager manager = factory.createEntityManager();
       // Create an instance of CarClub and store our new EntityManager as an instance variable.
-      CarClub carclub = new CarClub(manager);
+      BookPublishers bookpublishers = new BookPublishers(manager);
 
 
       // Any changes to the database need to be done within a transaction.
@@ -74,14 +74,14 @@ public class CarClub {
 
       tx.begin();
       // List of owners that I want to persist.  I could just as easily done this with the seed-data.sql
-      List <Owners> owners = new ArrayList<Owners>();
+      //List <Owners> owners = new ArrayList<Owners>();
       // Load up my List with the Entities that I want to persist.  Note, this does not put them
       // into the database.
-      owners.add(new Owners("Reese", "Mike", "714-892-5544"));
-      owners.add(new Owners("Leck", "Carl", "714-321-3729"));
-      owners.add(new Owners("Guitierez", "Luis", "562-982-2899"));
+      //owners.add(new Owners("Reese", "Mike", "714-892-5544"));
+      //owners.add(new Owners("Leck", "Carl", "714-321-3729"));
+      //owners.add(new Owners("Guitierez", "Luis", "562-982-2899"));
       // Create the list of owners in the database.
-      carclub.createEntity (owners);
+      //carclub.createEntity (owners);
 
       // Commit the changes so that the new data persists and is visible to other users.
       tx.commit();
@@ -118,16 +118,16 @@ public class CarClub {
     * @param name       The name of the autobody style that you are looking for.
     * @return           The auto_body_styles instance corresponding to that style name.
     */
-   public auto_body_styles getStyle (String name) {
-      // Run the native query that we defined in the auto_body_styles entity to find the right style.
-      List<auto_body_styles> styles = this.entityManager.createNamedQuery("ReturnAutoBodyStyle",
-              auto_body_styles.class).setParameter(1, name).getResultList();
-      if (styles.size() == 0) {
-         // Invalid style name passed in.
-         return null;
-      } else {
-         // Return the style object that they asked for.
-         return styles.get(0);
-      }
+//    public auto_body_styles getStyle (String name) {
+//       // Run the native query that we defined in the auto_body_styles entity to find the right style.
+//       List<auto_body_styles> styles = this.entityManager.createNamedQuery("ReturnAutoBodyStyle",
+//               auto_body_styles.class).setParameter(1, name).getResultList();
+//       if (styles.size() == 0) {
+//          // Invalid style name passed in.
+//          return null;
+//       } else {
+//          // Return the style object that they asked for.
+//          return styles.get(0);
+//       }
    }// End of the getStyle method
 } // End of CarClub class
