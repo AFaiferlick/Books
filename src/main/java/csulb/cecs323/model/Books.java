@@ -41,7 +41,7 @@ public class Books {
      */
     public Books (String ISBN, String title, int yearPublished) {
         this.ISBN = ISBN;
-        this.titel = title;
+        this.title = title;
         this.yearPublished = yearPublished;
     }
     
