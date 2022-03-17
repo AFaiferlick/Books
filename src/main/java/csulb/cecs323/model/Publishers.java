@@ -9,7 +9,7 @@ import javax.persistence.NamedNativeQuery;
 @NamedNativeQuery(
         name="ReturnPublisher",
         query = "SELECT * " +
-                "FROM   PUBLISHER " +
+                "FROM   PUBLISHERS " +
                 "WHERE  name = ? ",
         resultClass = Publishers.class
 )
@@ -87,6 +87,9 @@ public class Publishers {
         this.email = email;
     }
 
+     /** The string representation of Publishers
+     * @return string representation of Publishers
+     */
     @Override
     public String toString () {
         return "Publisher\nName: " + this.name + " Phone: " + this.phone +
