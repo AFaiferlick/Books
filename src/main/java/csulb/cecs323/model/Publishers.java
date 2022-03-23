@@ -7,7 +7,7 @@ import javax.persistence.NamedNativeQuery;
 
 @Entity
 @NamedNativeQuery(
-        name="ReturnPublisher",
+        name="ReturnPublisherInformation",
         query = "SELECT * " +
                 "FROM   PUBLISHERS " +
                 "WHERE  name = ? ",

@@ -14,6 +14,7 @@ package csulb.cecs323.app;
 
 // Import all of the entity classes that we have written for this application.
 
+import csulb.cecs323.model.Publishers;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -74,15 +75,15 @@ public class JPA_Books {
       EntityTransaction tx = manager.getTransaction();
 
       tx.begin();
-//      // List of owners that I want to persist.  I could just as easily done this with the seed-data.sql
-//      List <Owners> owners = new ArrayList<Owners>();
-//      // Load up my List with the Entities that I want to persist.  Note, this does not put them
-//      // into the database.
-//      owners.add(new Owners("Reese", "Mike", "714-892-5544"));
-//      owners.add(new Owners("Leck", "Carl", "714-321-3729"));
-//      owners.add(new Owners("Guitierez", "Luis", "562-982-2899"));
-//      // Create the list of owners in the database.
-//      carclub.createEntity (owners);
+      // List of owners that I want to persist.  I could just as easily done this with the seed-data.sql
+      //List <Owners> owners = new ArrayList<Owners>();
+      // Load up my List with the Entities that I want to persist.  Note, this does not put them
+      // into the database.
+      //owners.add(new Owners("Reese", "Mike", "714-892-5544"));
+      //owners.add(new Owners("Leck", "Carl", "714-321-3729"));
+      //owners.add(new Owners("Guitierez", "Luis", "562-982-2899"));
+      // Create the list of owners in the database.
+      //carclub.createEntity (owners);
 
       // Commit the changes so that the new data persists and is visible to other users.
       tx.commit();
@@ -100,6 +101,8 @@ public class JPA_Books {
 
       //Variables
       boolean valid = true; //Used to validate user input
+      List <Publishers> publishers = new ArrayList<Publishers>();
+      ArrayList<String> publishersAttributes = new ArrayList<String>();
       //End of Variables
 
       //Main Menu Loop
@@ -107,24 +110,40 @@ public class JPA_Books {
       {
          System.out.println("== Welcome ==\nChoose what information you would like to access: \n1. Publishers\n2. Books\n3. Authoring Entities\n4. Exit Program");
          int menuOption = getIntRange(1,4);
-         //Validate input using Cleary's methods
 
          switch ( menuOption ) {
             case 1: //Publisher Menu Options
                System.out.println("\n== Publishers ==\nChoose an option:\n1. Add New Publisher\n2. List Publisher Information\n3. Publisher Primary Key Information\n4. Return to Main Menu");
                int publisherMenuOption = getIntRange(1,4);
 
+               LOGGER.fine("Begin of Transaction");
+               EntityTransaction publishertx = manager.getTransaction();
+
+               publishertx.begin();
+
                switch ( publisherMenuOption ) {
                   case 1:
                      System.out.println("\n== Add New Publisher ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+
+                     System.out.println("Enter publisher name: ");
+                     publishersAttributes.add(getString());
+
+                     System.out.println("Enter publisher phone: ");
+                     publishersAttributes.add(getString());
+
+                     System.out.println("Enter publisher email: ");
+                     publishersAttributes.add(getString());
+
+                     publishers.add(new Publishers(publishersAttributes.get(0), publishersAttributes.get(1), publishersAttributes.get(2)));
+                     publishersAttributes.clear();
                      break;
 
                   case 2:
                      System.out.println("\n== List Publisher Information ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+
+                     System.out.println("Searching for publisher name: ");
+                     String publisherName = getString();
+
                      break;
 
                   case 3:
@@ -137,6 +156,11 @@ public class JPA_Books {
                      System.out.println("");
                      break;
                }
+               books.createEntity(publishers);
+
+               // Commit the changes so that the new data persists and is visible to other users.
+               publishertx.commit();
+               LOGGER.fine("End of Transaction");
                break;
 
             case 2: //Book Menu Options
@@ -268,6 +292,16 @@ public class JPA_Books {
             System.out.println( "Invalid Input." );
          }
       }
+      return input;
+   }
+
+   /**
+    * Takes in a string from the user.
+    * @return the inputted String.
+    */
+   public static String getString() {
+      Scanner in = new Scanner( System.in );
+      String input = in.nextLine();
       return input;
    }
 
