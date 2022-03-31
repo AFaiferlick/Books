@@ -14,6 +14,7 @@ package csulb.cecs323.app;
 
 // Import all of the entity classes that we have written for this application.
 
+import csulb.cecs323.model.Books;
 import csulb.cecs323.model.Publishers;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -171,10 +172,46 @@ public class JPA_Books {
                   case 1:
                      System.out.println("\n== Add New Book ==");
                      //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+
+                     System.out.println("Enter publisher ISBN for Book: "); // ISBN
+                     Books.add(getString());
+
+                     System.out.println("Enter title of Book: "); // title
+                     Books.add(getString());
+
+                     System.out.println("Enter the Year the Book was published: "); // Year Published
+                     Books.add(getString());
+
+                     System.out.println("Enter the publisher's name: "); // publisher
+                     Books.add(getString());
+
+                     System.out.println("Enter Name of the Author: "); // authoringEntity
+                     Books.add(getString());
+
+                     Books.add(new Books(Books.get(0), Books.get(1), Books.get(2)));
+                     publishersAttributes.clear();
                      break;
                   case 2:
-                     System.out.println("\n== Update Book ==");
+//                     System.out.println("\n== Update Book ==");
+//                     // enter book title
+//                     System.out.println("Enter publisher ISBN for Book: "); // ISBN
+//                     Books.add(getString());
+//
+//                     System.out.println("Enter title of Book: "); // title
+//                     Books.add(getString()); // this should just be omitted or just enter the value of the found book
+//                     (essentially overwrites the name with the same name)
+//
+//                     System.out.println("Enter the Year the Book was published: "); // Year Published
+//                     Books.add(getString());
+//
+//                     System.out.println("Enter the publisher's name: "); // publisher
+//                     Books.add(getString());
+//
+//                     System.out.println("Enter Name of the Author: "); // authoringEntity
+//                     Books.add(getString());
+//
+//                     Books.add(new Books(Books.get(0), Books.get(1), Books.get(2)));
+//                     publishersAttributes.clear();
                      //Add Code Here
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
