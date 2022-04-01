@@ -20,9 +20,10 @@ import javax.persistence.*;
 )
 
 @NamedNativeQuery(
-        name="ReturnAllBooks",
+        name="ReturnBookList", // This used be "ReturnAllBooks"
         query = "SELECT * " +
-                "FROM books ",
+                "FROM books " +
+                "ORDER BY title", // Added this ORDER BY clause
         resultClass = Books.class
 )
 /**

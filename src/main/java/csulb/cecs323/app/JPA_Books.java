@@ -103,8 +103,12 @@ public class JPA_Books {
       //Variables
       boolean valid = true; //Used to validate user input
       List <Publishers> publishers = new ArrayList<Publishers>();
+      List <Books> booksList = new ArrayList<Books>();
       ArrayList<String> publishersAttributes = new ArrayList<String>();
+      Scanner in = new Scanner( System.in );
       //End of Variables
+
+      booksList = books.getBookList();
 
       //Main Menu Loop
       while(valid)
@@ -218,7 +222,27 @@ public class JPA_Books {
                   case 3:
                      System.out.println("\n== Delete Book ==");
                      //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     System.out.println("+========= List of All Books =========+");
+                     // List all books from the database so the user can pick one to delete.
+                     for (int i=0; i<booksList.size(); i++) {
+                        System.out.println(i+1 + "\t" + booksList.get(i).getTitle());
+                     }
+                     System.out.println("========================================");
+
+                     System.out.println("Enter sequence number of book to delete: ");
+                     int bookToDelete = getIntRange(1, booksList.size());
+
+                     System.out.println("Do you wish to delete " + booksList.get(bookToDelete-1).getTitle() + "?");
+                     String userChoice = in.next().toUpperCase();
+
+                     if (userChoice.equals("Y")) {
+                        // Implement the deletion of chosen book from the database.
+                     } else {
+
+                     }
+
+
+                     //System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 4:
                      System.out.println("\n== List Book Information ==");
@@ -305,6 +329,12 @@ public class JPA_Books {
       }
    } // End of createEntity member method
 
+   public List<Books> getBookList() { // Retrieves all books into a list
+      List<Books> books = this.entityManager.createNamedQuery("ReturnBookList", Books.class).getResultList();
+      return books;
+
+   }
+
    /**
     * Checks if the inputted value is an integer and
     * within the specified range (ex: 1-10)
@@ -330,7 +360,7 @@ public class JPA_Books {
          }
       }
       return input;
-   }
+   } // End of getIntRange method
 
    /**
     * Takes in a string from the user.
