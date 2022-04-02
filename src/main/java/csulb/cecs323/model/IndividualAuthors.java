@@ -24,8 +24,7 @@ public class IndividualAuthors {
     /** The email of the Author.  Limited to 30 characters. */
     private String email;
 
-    public IndividualAuthors() {
-    }
+    public IndividualAuthors() {}
 
     /**
      * Overloaded constructor that creates a IndividualAuthors object.
@@ -80,5 +79,3 @@ public class IndividualAuthors {
     @Override
     public String toString() {return "Publisher\nName: " + this.name + " Email: " + this.email;}
 }
-
-
