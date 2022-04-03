@@ -113,12 +113,14 @@ public class JPA_Books {
       //Main Menu Loop
       while(valid)
       {
-         System.out.println("== Welcome ==\nChoose what information you would like to access: \n1. Publishers\n2. Books\n3. Authoring Entities\n4. Exit Program");
+         System.out.println("== Welcome ==\nChoose what information you would like to access: \n1. Publishers\n2. Books\n" +
+                 "3. Authoring Entities\n4. Exit Program");
          int menuOption = getIntRange(1,4);
 
          switch ( menuOption ) {
             case 1: //Publisher Menu Options
-               System.out.println("\n== Publishers ==\nChoose an option:\n1. Add New Publisher\n2. List Publisher Information\n3. Publisher Primary Key Information\n4. Return to Main Menu");
+               System.out.println("\n== Publishers ==\nChoose an option:\n1. Add New Publisher\n" +
+                       "2. List Publisher Information\n3. Publisher Primary Key Information\n4. Return to Main Menu");
                int publisherMenuOption = getIntRange(1,4);
 
                LOGGER.fine("Begin of Transaction");
@@ -169,7 +171,8 @@ public class JPA_Books {
                break;
 
             case 2: //Book Menu Options
-               System.out.println("\n== Books ==\nChoose an option:\n1. Add New Book\n2. Update Book\n3. Delete Book\n4. List Book Information\n5. Book Primary Key Information\n6. Return to Main Menu");
+               System.out.println("\n== Books ==\nChoose an option:\n1. Add New Book\n2. Update Book\n" +
+                       "3. Delete Book\n4. List Book Information\n5. Book Primary Key Information\n6. Return to Main Menu");
                int bookMenuOption = getIntRange(1,6);
 
                switch ( bookMenuOption ) {
@@ -229,7 +232,7 @@ public class JPA_Books {
                      }
                      System.out.println("========================================");
 
-                     System.out.println("Enter sequence number of book to delete: ");
+                     System.out.println("Enter sequence number of the book you wish to delete: ");
                      int bookToDelete = getIntRange(1, booksList.size());
 
                      System.out.println("Do you wish to delete " + booksList.get(bookToDelete-1).getTitle() + "?");
@@ -238,15 +241,13 @@ public class JPA_Books {
                      if (userChoice.equals("Y")) {
                         // Implement the deletion of chosen book from the database.
                      } else {
-
+                        System.out.println(booksList.get(bookToDelete-1).getTitle() + " was not deleted.");
                      }
 
-
-                     //System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 4:
                      System.out.println("\n== List Book Information ==");
-                     //Add Code Here
+                     // Add core here
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 5:
@@ -255,18 +256,20 @@ public class JPA_Books {
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 6: //Return to Main Menu
-                     System.out.println("");
+                     System.out.println("Returning to Main Menu...");
                      break;
                }
                break;
 
             case 3: //Authoring Entities Options
-               System.out.println("\n== Authoring Entities ==\nChoose an option:\n1. Add Writing Team\n2. Add Individual Author\n3. Add Ad Hoc Team\n4. Add Author to Ad Hoc Team\n5. List Writing Group Information\n6. Authoring Entitiy Primary Key Information\n7. Return to Main Menu");
+               System.out.println("\n== Authoring Entities ==\nChoose an option:\n1. Add Writing Group\n" +
+                       "2. Add Individual Author\n3. Add Ad Hoc Team\n4. Add Author to Ad Hoc Team\n" +
+                       "5. List Writing Group Information\n6. Authoring Entitiy Primary Key Information\n7. Return to Main Menu");
                int authorMenuOption = getIntRange(1,7);
 
                switch ( authorMenuOption ) {
                   case 1:
-                     System.out.println("\n== Add Writing Team ==");
+                     System.out.println("\n== Add Writing Group ==");
                      //Add Code Here
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
@@ -291,7 +294,7 @@ public class JPA_Books {
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 6:
-                     System.out.println("\n== Authoring Entitiy Primary Key Information ==");
+                     System.out.println("\n== Authoring Entity Primary Key Information ==");
                      //Add Code Here
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
@@ -332,7 +335,6 @@ public class JPA_Books {
    public List<Books> getBookList() { // Retrieves all books into a list
       List<Books> books = this.entityManager.createNamedQuery("ReturnBookList", Books.class).getResultList();
       return books;
-
    }
 
    /**
