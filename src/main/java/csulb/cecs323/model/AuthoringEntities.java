@@ -1,23 +1,42 @@
+//Good as of 4/2
 package csulb.cecs323.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.Inheritance;
+import javax.persistence.*;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="authoringEntityType", discriminatorType = DiscriminatorType.STRING)
 @NamedNativeQuery(
         name="ReturnAuthoringEntity",
         query = "SELECT * " +
-                "FROM    " +
-                "WHERE  name = ? ",
+                "FROM authoringEntities " +
+                "WHERE  email = ? ",
+        resultClass = AuthoringEntities.class
+)
+
+@NamedNativeQuery(
+        name="ReturnAllAuthoringEntities",
+        query = "SELECT * " +
+                "FROM authoringEntities ",
+        resultClass = AuthoringEntities.class
+)
+
+@NamedNativeQuery(
+        name="ReturnAuthoringEntityPK",
+        query = "SELECT email, authoringEntityType " +
+                "FROM authoringEntities",
         resultClass = AuthoringEntities.class
 )
 
 /**
  * A writer of a book. Could be a single individual, a writing group, or an AD Hoc Team.
  */
-public class AuthoringEntities {
+public abstract class AuthoringEntities {
     @Id
     @Column(nullable = false, length = 30)
     /** The name of the authoring entity. Limited to 30 characters. */
@@ -66,6 +85,11 @@ public class AuthoringEntities {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    /** Returns the type of the authoring entity.
+     * @return Will return the type of the authoring entity as a String
+     */
+    public abstract String getType();
 
     /** The string representation of AuthoringEntity
      * @return string representation of AuthoringEntity
