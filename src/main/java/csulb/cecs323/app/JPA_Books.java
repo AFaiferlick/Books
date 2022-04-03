@@ -14,9 +14,7 @@ package csulb.cecs323.app;
 
 // Import all of the entity classes that we have written for this application.
 
-import csulb.cecs323.model.AuthoringEntities;
-import csulb.cecs323.model.Books;
-import csulb.cecs323.model.Publishers;
+import csulb.cecs323.model.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -77,6 +75,7 @@ public class JPA_Books {
       EntityTransaction tx = manager.getTransaction();
 
       tx.begin();
+
       // List of owners that I want to persist.  I could just as easily done this with the seed-data.sql
       //List <Owners> owners = new ArrayList<Owners>();
       // Load up my List with the Entities that I want to persist.  Note, this does not put them
@@ -93,9 +92,9 @@ public class JPA_Books {
 
       /**
        *   Project To-Do List:
-       *       -Finish WritingGroup.java, IndividualAuthor.java, AdHocTeam.java files.
-       *       -Implement the files stated above to be subclasses of AuthorEntity.java.
-       *       -Implement all One to Many and Many to Many relationships. As seen in diagram from instructions document.
+       *       -Finish WritingGroup.java, IndividualAuthor.java, AdHocTeam.java files. ~DONE
+       *       -Implement the files stated above to be subclasses of AuthorEntity.java. ~DONE
+       *       -Implement all One to Many and Many to Many relationships. As seen in diagram from instructions document. ~DONE?
        *       -Complete require menu operations
        *       -Complete validation requirments (See rubric)
        *       -...For full list of requirments, see instructions document and rubric from dropbox
@@ -105,12 +104,49 @@ public class JPA_Books {
       boolean valid = true; //Used to validate user input
       List <Publishers> publishers = new ArrayList<Publishers>();
       List <Books> booksList = new ArrayList<Books>();
-      ArrayList<String> publishersAttributes = new ArrayList<String>();
+      List <AuthoringEntities> authoringEntities = new ArrayList<AuthoringEntities>();
+      List <WritingGroups> writingGroups = new ArrayList<WritingGroups>();
+      List <IndividualAuthors> individualAuthors = new ArrayList<IndividualAuthors>();
+      List <AdHocTeams> adHocTeams = new ArrayList<AdHocTeams>();
+
+      ArrayList<String> publishersAttributes = new ArrayList<String>();  //will store publisher name, phone#, and email
       List <Books> newBook = new ArrayList<Books>();
       Scanner in = new Scanner( System.in );
       //End of Variables
 
-      booksList = books.getBookList();
+
+      publishers.add(new Publishers("Penguin Random House", "800-733-3000", "consumerservices@penguinrandomhouse.com"));
+      publishers.add(new Publishers("Prepper Press", "800-759-0190", "derrick@prepperpress.com"));
+      publishers.add(new Publishers("Harper Collins", "800-242-7737", "harpercollins.en.cs@digitalriver.com"));
+      books.createEntity(publishers);
+
+      IndividualAuthors individual1 = new IndividualAuthors("TimTebow@gmail.com", "Tim Tebow");
+      IndividualAuthors individual2 = new IndividualAuthors("MattLarsen@gmail.com", "Matt Larsen");
+      individualAuthors.add(individual1);
+      individualAuthors.add(individual2);
+      books.createEntity(individualAuthors);
+
+      AdHocTeams team1 = new AdHocTeams("vapublicaffairs@va.gov", "US Army");
+      adHocTeams.add(team1);
+      team1.addIndividualAuthor(individual2); //added an individual to an ad hoc team
+      individual2.addAdHocTeam(team1); //added ad hoc team membership to an individual
+      books.createEntity(adHocTeams);
+
+      WritingGroups group1 = new WritingGroups("ErinHunter@gmail.com", "Erin Hunter", "Victoria Holmes", 2003);
+      writingGroups.add(group1);
+      books.createEntity(writingGroups);
+
+      authoringEntities.add(individual1); //add all authoring entity instances to the authoring entities list
+      authoringEntities.add(individual2);
+      authoringEntities.add(team1);
+      authoringEntities.add(group1);
+      books.createEntity(authoringEntities);
+
+      booksList.add(new Books("9780593194034", "Mission Possible", 2022, publishers.get(0), authoringEntities.get(0)));
+      booksList.add(new Books("0062366963", "Warriors: Into the Wild", 2003, publishers.get(2), authoringEntities.get(3)));
+      booksList.add(new Books("9781493023769", "The Official US Army Survival Manual", 2020, publishers.get(1), authoringEntities.get(2)));
+      books.createEntity(booksList);
+
 
       //Main Menu Loop
       while(valid)
@@ -150,8 +186,14 @@ public class JPA_Books {
                   case 2:
                      System.out.println("\n== List Publisher Information ==");
 
-                     System.out.println("Searching for publisher name: ");
-                     String publisherName = getString();
+                     for( int i = 0; i < publishers.size(); i++ ) {
+                        System.out.println((i+1) + ": " + publishers.get(i).getName() + "\n");
+                     }
+                     System.out.println("Please select one of the above publishers' information to list: ");
+                     int publisherSelection = getIntRange(1, publishers.size()+1);
+                     Publishers publisherChoice = publishers.get(publisherSelection-1);
+                     System.out.println("Publisher name: " + publisherChoice.getName() + "\nPublisher email: "
+                             + publisherChoice.getEmail() + "\nPublisher phone number: " + publisherChoice.getPhone());
 
                      break;
 
@@ -211,12 +253,12 @@ public class JPA_Books {
                      String authorEmail = in.next();
 
                      // Create new AuthoringEntities Object. Not sure how to do this properly.
-                     AuthoringEntities newAuthor = new AuthoringEntities(authorName, authorEmail); // cannot instantiate
+                     //AuthoringEntities newAuthor = new AuthoringEntities(authorName, authorEmail); // cannot instantiate
                      //Books bookToAdd = new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor);
 
                      List<Books> newBookEntry = new ArrayList<Books> ();
-                     newBookEntry.add(0, new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor));
-                     JPA_Books.createEntity(newBookEntry);
+                     //newBookEntry.add(0, new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor));
+                     books.createEntity(newBookEntry);
 
                      //publishersAttributes.clear();
                      break;
@@ -357,6 +399,11 @@ public class JPA_Books {
    public List<Books> getBookList() { // Retrieves all books into a list
       List<Books> books = this.entityManager.createNamedQuery("ReturnBookList", Books.class).getResultList();
       return books;
+   }
+
+   public List<Publishers> getPublisherList() { // Retrieves all publishers into a list
+      List<Publishers> publishers = this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
+      return publishers;
    }
 
    /**
