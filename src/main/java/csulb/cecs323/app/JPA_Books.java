@@ -14,6 +14,7 @@ package csulb.cecs323.app;
 
 // Import all of the entity classes that we have written for this application.
 
+import csulb.cecs323.model.AuthoringEntities;
 import csulb.cecs323.model.Books;
 import csulb.cecs323.model.Publishers;
 import javax.persistence.EntityManager;
@@ -105,6 +106,7 @@ public class JPA_Books {
       List <Publishers> publishers = new ArrayList<Publishers>();
       List <Books> booksList = new ArrayList<Books>();
       ArrayList<String> publishersAttributes = new ArrayList<String>();
+      List <Books> newBook = new ArrayList<Books>();
       Scanner in = new Scanner( System.in );
       //End of Variables
 
@@ -160,7 +162,8 @@ public class JPA_Books {
                      break;
 
                   case 4: //Return to Main Menu
-                     System.out.println("");
+                     System.out.println("Exiting Program...");
+                     valid = false;
                      break;
                }
                books.createEntity(publishers);
@@ -181,22 +184,41 @@ public class JPA_Books {
                      //Add Code Here
 
                      System.out.println("Enter publisher ISBN for Book: "); // ISBN
-                     Books.add(getString());
+                     String ISBN = in.next(); // Books
 
-                     System.out.println("Enter title of Book: "); // title
-                     Books.add(getString());
+                     System.out.println("Enter book title: "); // title
+                     String bookTitle = getString(); // Books
 
-                     System.out.println("Enter the Year the Book was published: "); // Year Published
-                     Books.add(getString());
+                     System.out.println("Enter the year the book was published: "); // Year Published
+                     int yearPublished = getIntRange(1, 2022); // Not sure what the earliest year is for published books
 
-                     System.out.println("Enter the publisher's name: "); // publisher
-                     Books.add(getString());
+                     System.out.println("Enter publisher name: "); // publisher
+                     String publisherName = getString();
 
-                     System.out.println("Enter Name of the Author: "); // authoringEntity
-                     Books.add(getString());
+                     System.out.println("Enter publisher's phone number: ");
+                     String publisherNumber = in.next();
 
-                     Books.add(new Books(Books.get(0), Books.get(1), Books.get(2)));
-                     publishersAttributes.clear();
+                     System.out.println("Enter publisher's email: ");
+                     String publisherEmail = in.next();
+
+                     // Create new Publisher object
+                     Publishers newPublisher = new Publishers(publisherName, publisherNumber, publisherEmail);
+
+                     System.out.println("Enter author name: "); // authoringEntity
+                     String authorName = getString();
+
+                     System.out.println("Enter author's email: ");
+                     String authorEmail = in.next();
+
+                     // Create new AuthoringEntities Object. Not sure how to do this properly.
+                     AuthoringEntities newAuthor = new AuthoringEntities(authorName, authorEmail); // cannot instantiate
+                     //Books bookToAdd = new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor);
+
+                     List<Books> newBookEntry = new ArrayList<Books> ();
+                     newBookEntry.add(0, new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor));
+                     JPA_Books.createEntity(newBookEntry);
+
+                     //publishersAttributes.clear();
                      break;
                   case 2:
 //                     System.out.println("\n== Update Book ==");
@@ -239,7 +261,7 @@ public class JPA_Books {
                      String userChoice = in.next().toUpperCase();
 
                      if (userChoice.equals("Y")) {
-                        // Implement the deletion of chosen book from the database.
+                        // TO DO: Implement the deletion of chosen book from the database.
                      } else {
                         System.out.println(booksList.get(bookToDelete-1).getTitle() + " was not deleted.");
                      }

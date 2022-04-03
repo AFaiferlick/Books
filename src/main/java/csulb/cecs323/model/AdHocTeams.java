@@ -40,7 +40,7 @@ public class AdHocTeams extends AuthoringEntities {
     /** Adds an individual author to this ad hoc team's list of individual authors.
      * @param individualAuthor     The individual author to add to the list of individual authors.
      */
-    public void addIndividualAuthor(IndividualAuthors individualAuthor) { this.individualAuthorsList.add(individualAuthor); };
+    public void addIndividualAuthor(IndividualAuthors individualAuthor) { this.individualAuthorsList.add(individualAuthor); }
 
     /** Returns this specific authoring entity type as "Ad Hoc Team"
      * @return "Ad Hoc Team"  The authoring entity type of this authoring entity in String form
