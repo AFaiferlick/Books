@@ -1,3 +1,4 @@
+//Good as of 4/2
 package csulb.cecs323.model;
 
 import javax.persistence.Column;
@@ -7,10 +8,17 @@ import javax.persistence.NamedNativeQuery;
 
 @Entity
 @NamedNativeQuery(
-        name="ReturnPublisherInformation",
+        name="ReturnPublisher",
         query = "SELECT * " +
                 "FROM   PUBLISHERS " +
                 "WHERE  name = ? ",
+        resultClass = Publishers.class
+)
+
+@NamedNativeQuery(
+        name="ReturnAllPublishers",
+        query = "SELECT * " +
+                "FROM   PUBLISHERS ",
         resultClass = Publishers.class
 )
 

@@ -1,3 +1,4 @@
+//Good as of 4/2
 package csulb.cecs323.model;
 
 import javax.persistence.*;
