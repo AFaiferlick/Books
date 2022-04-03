@@ -1,60 +1,50 @@
+//Good as of 4/2
 package csulb.cecs323.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
+import java.util.List;
+import java.util.ArrayList;
+import javax.persistence.*;
 
 @Entity
-@NamedNativeQuery(
-        name="ReturnAdHocTeams",
-        query = "SELECT * " +
-                "FROM   AdHocTeams " +
-                "WHERE  name = ? ",
-        resultClass = AdHocTeams.class
-)
+@DiscriminatorValue("Ad Hoc Teams")
+public class AdHocTeams extends AuthoringEntities {
 
-public class AdHocTeams {
-    @Id
-    @Column(nullable = false, length = 20)
-    private String name;
+    @ManyToMany
+    List<IndividualAuthors> individualAuthorsList;
 
-    @Column(nullable = false, length = 30)
-    private String email;
+    /**
+     * Calls default constructor of parent class for this child class's default constructor
+     */
+    public AdHocTeams(){ super(); }
 
-    @Column(nullable = false, length = 20)
-    private String A_name;
-
-    @Column(nullable = false, length = 30)
-    private String A_email;
-
-    public AdHocTeams(){}
-
-    public AdHocTeams(String name, String email, String A_name, String A_email){
-        this.name = name;
-        this.email = email;
-        this.A_name = A_name;
-        this.A_email = A_email;
-    }
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
+    /**
+     *
+     * @param email     The Email of the ad hoc team.
+     * @param name      The Name of the ad hoc team.
+     */
+    public AdHocTeams(String email, String name){
+        super(email, name);
+        individualAuthorsList = new ArrayList<>();
     }
 
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    /** Outputs this class in a string representation.
+     * @return the class in a string representation
+     */
+    public String toString() { return "Ad Hoc Team\nName: " + super.getName() + " Email: " + super.getEmail(); }
 
-    public String getA_Name() {
-        return name;
-    }
-    public void setA_Name(String A_name) {this.A_name = A_name;}
+    /** Retrieves the list of individual authors this ad hoc team contains.
+     * @return individualAuthorsList   The list of individual authors this ad hoc team contains.
+     */
+    public List<IndividualAuthors> getIndividualAuthors() { return this.individualAuthorsList; }
 
-    public String getA_Email() {return A_email;}
-    public void setA_Email(String A_email) {this.A_email = A_email;}
+    /** Adds an individual author to this ad hoc team's list of individual authors.
+     * @param individualAuthor     The individual author to add to the list of individual authors.
+     */
+    public void addIndividualAuthor(IndividualAuthors individualAuthor) { this.individualAuthorsList.add(individualAuthor); };
+
+    /** Returns this specific authoring entity type as "Ad Hoc Team"
+     * @return "Ad Hoc Team"  The authoring entity type of this authoring entity in String form
+     */
+    @Override
+    public String getType() { return "Ad Hoc Team"; }
 }
