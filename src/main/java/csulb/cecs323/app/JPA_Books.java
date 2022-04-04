@@ -224,7 +224,6 @@ public class JPA_Books {
                   case 1:
                      System.out.println("\n== Add New Book ==");
                      //Add Code Here
-
                      System.out.println("Enter publisher ISBN for Book: "); // ISBN
                      String ISBN = in.next(); // Books
 
@@ -335,7 +334,7 @@ public class JPA_Books {
                switch ( authorMenuOption ) {
                   case 1:
                      System.out.println("\n== Add Writing Group ==");
-                     //Add Code Here
+                     //Add Code Here head writer emain name and year
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 2:
@@ -344,24 +343,24 @@ public class JPA_Books {
                      String GetIndAuthName =getString();
                      System.out.println("Enter the Authors Email:");
                      String GetIndAuthMail = getString();
-                     /** Not sure how to implement this part,
-                      * So basically looking at lines 29 to 31 in individual authors
-                      * Should the email and the name be in an array?
-                      *
-                      *IndividualAuthors.add(GetIndAuthMail,GetIndAuthName);
-                      */
+                      individualAuthors.add(new IndividualAuthors (GetIndAuthMail,GetIndAuthName));
                      //IndividualAuthors New IndividualAuthors = new;
                      //System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 3:
                      System.out.println("\n== Add Ad Hoc Team ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     //Add Code Here team name email
+                     System.out.println("Please write the AdHoc Team Name:");
+                     String ADHName = getString();
+                     System.out.println("Please enter the AdHoc Email:");
+                     String ADHMail = getString();
+                     //System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 4:
                      System.out.println("\n== Add Author to Ad Hoc Team ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     System.out.println("Please write main AdHoc Author Name:");
+                     String ADH_MainName = getString();
+                     //System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 5:
                      System.out.println("\n== List Writing Group Information ==");
