@@ -155,6 +155,13 @@ public class JPA_Books {
                  "3. Authoring Entities\n4. Exit Program");
          int menuOption = getIntRange(1,4);
 
+         //For use in publisher menu option
+         int publisherSelection = 0;
+         Publishers publisherChoice = null;
+
+         int authorSelection = 0;
+         AuthoringEntities authorChoice = null;
+
          switch ( menuOption ) {
             case 1: //Publisher Menu Options
                System.out.println("\n== Publishers ==\nChoose an option:\n1. Add New Publisher\n" +
@@ -180,6 +187,7 @@ public class JPA_Books {
                      publishersAttributes.add(getString());
 
                      publishers.add(new Publishers(publishersAttributes.get(0), publishersAttributes.get(1), publishersAttributes.get(2)));
+                     books.createEntity(publishers);  //persist publishers right after being created
                      publishersAttributes.clear();
                      break;
 
@@ -190,17 +198,23 @@ public class JPA_Books {
                         System.out.println((i+1) + ": " + publishers.get(i).getName() + "\n");
                      }
                      System.out.println("Please select one of the above publishers' information to list: ");
-                     int publisherSelection = getIntRange(1, publishers.size()+1);
-                     Publishers publisherChoice = publishers.get(publisherSelection-1);
+                     publisherSelection = getIntRange(1, publishers.size());
+                     publisherChoice = publishers.get(publisherSelection-1);
                      System.out.println("Publisher name: " + publisherChoice.getName() + "\nPublisher email: "
                              + publisherChoice.getEmail() + "\nPublisher phone number: " + publisherChoice.getPhone());
-
                      break;
 
                   case 3:
                      System.out.println("\n== Publisher Primary Key Information ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     for( int i = 0; i < publishers.size(); i++ ) {
+                        System.out.println((i+1) + ": " + publishers.get(i).getName() + "\n");
+                     }
+                     System.out.println("Please select one of the above publishers' primary key information to list: ");
+                     publisherSelection = getIntRange(1, publishers.size());
+                     publisherChoice = publishers.get(publisherSelection-1);
+                     //TODO: What is the PK of Publisher?
+                     System.out.println("\nPublisher email: " + publisherChoice.getEmail()
+                             + "\nPublisher phone number: " + publisherChoice.getPhone());
                      break;
 
                   case 4: //Return to Main Menu
@@ -208,7 +222,6 @@ public class JPA_Books {
                      valid = false;
                      break;
                }
-               books.createEntity(publishers);
 
                // Commit the changes so that the new data persists and is visible to other users.
                publishertx.commit();
@@ -223,7 +236,7 @@ public class JPA_Books {
                switch ( bookMenuOption ) {
                   case 1:
                      System.out.println("\n== Add New Book ==");
-                     //Add Code Here
+
                      System.out.println("Enter publisher ISBN for Book: "); // ISBN
                      String ISBN = in.next(); // Books
 
@@ -231,36 +244,26 @@ public class JPA_Books {
                      String bookTitle = getString(); // Books
 
                      System.out.println("Enter the year the book was published: "); // Year Published
-                     int yearPublished = getIntRange(1, 2022); // Not sure what the earliest year is for published books
+                     int yearPublished = getIntRange(1440, 2022);
 
-                     System.out.println("Enter publisher name: "); // publisher
-                     String publisherName = getString();
+                     for( int i = 0; i < publishers.size(); i++ ) {
+                        System.out.println((i+1) + ": " + publishers.get(i).getName() + "\n");
+                     }
+                     System.out.println("Select which publisher above this book was published by: "); // allows user to select publisher
+                     publisherSelection = getIntRange(1, publishers.size());
+                     publisherChoice = publishers.get(publisherSelection-1);
 
-                     System.out.println("Enter publisher's phone number: ");
-                     String publisherNumber = in.next();
+                     for( int i = 0; i < authoringEntities.size(); i++ ) {
+                        System.out.println((i+1) + ": " + authoringEntities.get(i).getName() + "\n");
+                     }
+                     System.out.println("Select which authoring entity above this book was written by: "); // allows user to select author
+                     authorSelection = getIntRange(1, authoringEntities.size());
+                     authorChoice = authoringEntities.get(authorSelection-1);
 
-                     System.out.println("Enter publisher's email: ");
-                     String publisherEmail = in.next();
-
-                     // Create new Publisher object
-                     Publishers newPublisher = new Publishers(publisherName, publisherNumber, publisherEmail);
-
-                     System.out.println("Enter author name: "); // authoringEntity
-                     String authorName = getString();
-
-                     System.out.println("Enter author's email: ");
-                     String authorEmail = in.next();
-
-                     // Create new AuthoringEntities Object. Not sure how to do this properly.
-                     //AuthoringEntities newAuthor = new AuthoringEntities(authorName, authorEmail); // cannot instantiate
-                     //Books bookToAdd = new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor);
-
-                     List<Books> newBookEntry = new ArrayList<Books> ();
-                     //newBookEntry.add(0, new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor));
-                     books.createEntity(newBookEntry);
-
-                     //publishersAttributes.clear();
+                     booksList.add(0, new Books(ISBN, bookTitle, yearPublished, publisherChoice, authorChoice)); //creates new book based on input
+                     books.createEntity(booksList); //persists new book within bookList ArrayList
                      break;
+
                   case 2:
 //                     System.out.println("\n== Update Book ==");
 //                     // enter book title
@@ -299,9 +302,9 @@ public class JPA_Books {
                      int bookToDelete = getIntRange(1, booksList.size());
 
                      System.out.println("Do you wish to delete " + booksList.get(bookToDelete-1).getTitle() + " (Y/N)?");
-                     String userChoice = in.next().toUpperCase();
+                     String userChoice = in.next().toUpperCase(); // Converts user input to uppercase.
 
-                     if (userChoice.equals("Y") ||userChoice.equals("y")) {
+                     if (userChoice.equals("Y")) {
                         // TO DO: Implement the deletion of chosen book from the database.
                      } else {
                         System.out.println(booksList.get(bookToDelete-1).getTitle() + " was not deleted.");
@@ -310,10 +313,23 @@ public class JPA_Books {
                      break;
                   case 4:
                      System.out.println("\n== List Book Information ==");
-                     // Add core here
-                     // Maybe a for loop that iterates through the amount of books
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     System.out.println("------- Available Books: -------\n")
+                     for( int i = 0; i < booksList.size(); i++ ) {
+                        System.out.println((i+1) + ": " + booksList.get(i).getTitle() + "\n");
+                     }
+                     System.out.println("To list book information, please select one of the books from the above list [1-" + booksList.size() + "]: ");
+                     int bookSelection = getIntRange(1, booksList.size());
+                     Books bookChoice = booksList.get(bookSelection-1);
+
+                     System.out.println("Retrieving information for \"" + bookChoice.getTitle() + "\"...");
+                     // List information for that book.
+                     System.out.println("ISBN: " + bookChoice.getISBN()
+                             + "\nBook Title: " + bookChoice.getTitle()
+                             + "\nYear Published: " + bookChoice.getYear_published()
+                             + "\nPublisher: " + bookChoice.getPublisher()
+                             + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity());
                      break;
+
                   case 5:
                      System.out.println("\n== Book Primary Key Information ==");
                      //Add Code Here
@@ -334,7 +350,7 @@ public class JPA_Books {
                switch ( authorMenuOption ) {
                   case 1:
                      System.out.println("\n== Add Writing Group ==");
-                     //Add Code Here head writer emain name and year
+                     //Add Code Here
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 2:
@@ -343,24 +359,24 @@ public class JPA_Books {
                      String GetIndAuthName =getString();
                      System.out.println("Enter the Authors Email:");
                      String GetIndAuthMail = getString();
-                      individualAuthors.add(new IndividualAuthors (GetIndAuthMail,GetIndAuthName));
+                     /** Not sure how to implement this part,
+                      * So basically looking at lines 29 to 31 in individual authors
+                      * Should the email and the name be in an array?
+                      *
+                      *IndividualAuthors.add(GetIndAuthMail,GetIndAuthName);
+                      */
                      //IndividualAuthors New IndividualAuthors = new;
                      //System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 3:
                      System.out.println("\n== Add Ad Hoc Team ==");
-                     //Add Code Here team name email
-                     System.out.println("Please write the AdHoc Team Name:");
-                     String ADHName = getString();
-                     System.out.println("Please enter the AdHoc Email:");
-                     String ADHMail = getString();
-                     //System.out.println("[OPTION NOT IMPLEMENTED]");
+                     //Add Code Here
+                     System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 4:
                      System.out.println("\n== Add Author to Ad Hoc Team ==");
-                     System.out.println("Please write main AdHoc Author Name:");
-                     String ADH_MainName = getString();
-                     //System.out.println("[OPTION NOT IMPLEMENTED]");
+                     //Add Code Here
+                     System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 5:
                      System.out.println("\n== List Writing Group Information ==");
