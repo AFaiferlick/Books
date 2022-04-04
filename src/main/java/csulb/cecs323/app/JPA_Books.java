@@ -312,10 +312,23 @@ public class JPA_Books {
                      break;
                   case 4:
                      System.out.println("\n== List Book Information ==");
-                     // Add core here
-                     // Maybe a for loop that iterates through the amount of books
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     System.out.println("------- Available Books: -------\n")
+                     for( int i = 0; i < booksList.size(); i++ ) {
+                        System.out.println((i+1) + ": " + booksList.get(i).getTitle() + "\n");
+                     }
+                     System.out.println("To list book information, please select one of the books from the above list [1-" + booksList.size() + "]: ");
+                     int bookSelection = getIntRange(1, booksList.size());
+                     Books bookChoice = booksList.get(bookSelection-1);
+
+                     System.out.println("Retrieving information for \"" + bookChoice.getTitle() + "\"...");
+                     // List information for that book.
+                     System.out.println("ISBN: " + bookChoice.getISBN()
+                             + "\nBook Title: " + bookChoice.getTitle()
+                             + "\nYear Published: " + bookChoice.getYear_published()
+                             + "\nPublisher: " + bookChoice.getPublisher()
+                             + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity());
                      break;
+
                   case 5:
                      System.out.println("\n== Book Primary Key Information ==");
                      //Add Code Here
