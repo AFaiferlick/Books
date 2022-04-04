@@ -190,7 +190,7 @@ public class JPA_Books {
                         System.out.println((i+1) + ": " + publishers.get(i).getName() + "\n");
                      }
                      System.out.println("Please select one of the above publishers' information to list: ");
-                     int publisherSelection = getIntRange(1, publishers.size()+1);
+                     int publisherSelection = getIntRange(1, publishers.size());
                      Publishers publisherChoice = publishers.get(publisherSelection-1);
                      System.out.println("Publisher name: " + publisherChoice.getName() + "\nPublisher email: "
                              + publisherChoice.getEmail() + "\nPublisher phone number: " + publisherChoice.getPhone());
@@ -232,7 +232,7 @@ public class JPA_Books {
                      String bookTitle = getString(); // Books
 
                      System.out.println("Enter the year the book was published: "); // Year Published
-                     int yearPublished = getIntRange(1, 2022); // Not sure what the earliest year is for published books
+                     int yearPublished = getIntRange(1440, 2022);
 
                      System.out.println("Enter publisher name: "); // publisher
                      String publisherName = getString();
@@ -253,14 +253,15 @@ public class JPA_Books {
                      String authorEmail = in.next();
 
                      // Create new AuthoringEntities Object. Not sure how to do this properly.
+                     IndividualAuthors newAuthor = new IndividualAuthors(authorEmail, authorName);
                      //AuthoringEntities newAuthor = new AuthoringEntities(authorName, authorEmail); // cannot instantiate
                      //Books bookToAdd = new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor);
 
                      List<Books> newBookEntry = new ArrayList<Books> ();
-                     //newBookEntry.add(0, new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor));
+                     newBookEntry.add(0, new Books(ISBN, bookTitle, yearPublished, newPublisher, newAuthor));
                      books.createEntity(newBookEntry);
 
-                     //publishersAttributes.clear();
+                     newBookEntry.clear(); // Clear the list for the next time the user wants to enter a new book
                      break;
                   case 2:
 //                     System.out.println("\n== Update Book ==");
@@ -300,9 +301,9 @@ public class JPA_Books {
                      int bookToDelete = getIntRange(1, booksList.size());
 
                      System.out.println("Do you wish to delete " + booksList.get(bookToDelete-1).getTitle() + " (Y/N)?");
-                     String userChoice = in.next().toUpperCase();
+                     String userChoice = in.next().toUpperCase(); // Converts user input to uppercase.
 
-                     if (userChoice.equals("Y") ||userChoice.equals("y")) {
+                     if (userChoice.equals("Y")) {
                         // TO DO: Implement the deletion of chosen book from the database.
                      } else {
                         System.out.println(booksList.get(bookToDelete-1).getTitle() + " was not deleted.");
