@@ -299,10 +299,10 @@ public class JPA_Books {
                      System.out.println("Enter sequence number of the book you wish to delete: ");
                      int bookToDelete = getIntRange(1, booksList.size());
 
-                     System.out.println("Do you wish to delete " + booksList.get(bookToDelete-1).getTitle() + "?");
+                     System.out.println("Do you wish to delete " + booksList.get(bookToDelete-1).getTitle() + " (Y/N)?");
                      String userChoice = in.next().toUpperCase();
 
-                     if (userChoice.equals("Y")) {
+                     if (userChoice.equals("Y") ||userChoice.equals("y")) {
                         // TO DO: Implement the deletion of chosen book from the database.
                      } else {
                         System.out.println(booksList.get(bookToDelete-1).getTitle() + " was not deleted.");
@@ -312,6 +312,7 @@ public class JPA_Books {
                   case 4:
                      System.out.println("\n== List Book Information ==");
                      // Add core here
+                     // Maybe a for loop that iterates through the amount of books
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 5:
@@ -339,8 +340,18 @@ public class JPA_Books {
                      break;
                   case 2:
                      System.out.println("\n== Add Individual Author ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     System.out.println("Enter the Author's Name:");
+                     String GetIndAuthName =getString();
+                     System.out.println("Enter the Authors Email:");
+                     String GetIndAuthMail = getString();
+                     /** Not sure how to implement this part,
+                      * So basically looking at lines 29 to 31 in individual authors
+                      * Should the email and the name be in an array?
+                      *
+                      *IndividualAuthors.add(GetIndAuthMail,GetIndAuthName);
+                      */
+                     //IndividualAuthors New IndividualAuthors = new;
+                     //System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 3:
                      System.out.println("\n== Add Ad Hoc Team ==");
