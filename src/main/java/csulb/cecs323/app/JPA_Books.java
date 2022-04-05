@@ -417,10 +417,10 @@ public class JPA_Books {
                      int grpYearFormed = getIntRange(1440,2022);
 
                      boolean notDuplicate = true;
-                     for( int i = 0; i < writingGroups.size(); i++ ) {
-                        if (writingGroups.get(i).getName().equals(grpName)) {
+                     for( int i = 0; i < authoringEntities.size(); i++ ) {
+                        if (authoringEntities.get(i).getEmail().equals(grpEmail)) {
                            notDuplicate = false;
-                           System.out.println("Sorry, this writing group already exists!");
+                           System.out.println("Sorry, an Authoring Entity with this email already exists!");
                            break;
                         }
                      }
@@ -441,10 +441,10 @@ public class JPA_Books {
                      String indAuthMail = getString();
 
                      notDuplicate = true;
-                     for( int i = 0; i < individualAuthors.size(); i++ ) {
-                        if (individualAuthors.get(i).getName().equals(indAuthName)) {
+                     for( int i = 0; i < authoringEntities.size(); i++ ) {
+                        if (authoringEntities.get(i).getEmail().equals(indAuthMail)) {
                            notDuplicate = false;
-                           System.out.println("Sorry, this author already exists!");
+                           System.out.println("Sorry, an Authoring Entity with this email already exists!");
                            break;
                         }
                      }
@@ -465,10 +465,10 @@ public class JPA_Books {
                      String teamMail = getString();
 
                      notDuplicate = true;
-                     for( int i = 0; i < adHocTeams.size(); i++ ) {
-                        if (adHocTeams.get(i).getName().equals(teamName)) {
+                     for( int i = 0; i < authoringEntities.size(); i++ ) {
+                        if (authoringEntities.get(i).getEmail().equals(teamMail)) {
                            notDuplicate = false;
-                           System.out.println("Sorry, this ad hoc team already exists!");
+                           System.out.println("Sorry, an Authoring Entity with this email already exists!");
                            break;
                         }
                      }

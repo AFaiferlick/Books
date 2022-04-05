@@ -31,13 +31,13 @@ import javax.persistence.*;
  */
 public abstract class AuthoringEntities {
     @Id
-    @Column(nullable = false, length = 30)
-    /** The name of the authoring entity. Limited to 30 characters. */
-    private String name;
-
     @Column(nullable = false, length = 50)
     /** The email of the authoring entity. Limited to 50 characters. */
     private String email;
+
+    @Column(nullable = false, length = 30)
+    /** The name of the authoring entity. Limited to 30 characters. */
+    private String name;
 
     /** Default constructor that creates an Authoring Entity. */
     public AuthoringEntities () {}
