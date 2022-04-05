@@ -298,6 +298,8 @@ public class JPA_Books {
 
                      if (userChoice.equals("Y")) {
                         // TO DO: Implement the deletion of chosen book from the database.
+                        //booksList.get(bookToDelete-1);
+                        manager.remove(booksList.get(bookToDelete-1));
                         booksList.remove(bookToDelete-1); // removes by index number
                         // might need to commit.
                      } else {
