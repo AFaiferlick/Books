@@ -22,6 +22,14 @@ import javax.persistence.NamedNativeQuery;
         resultClass = Publishers.class
 )
 
+@NamedNativeQuery(
+        name="ReturnPublisherPKs",
+        query = "SELECT name " +
+                "FROM   PUBLISHERS " +
+                "ORDER BY name asc ",
+        resultClass = Publishers.class
+)
+
 /**
  * A person or company that prepares and issues books, journals, music, or other works for sale..
  */
@@ -35,8 +43,8 @@ public class Publishers {
     /** The phone number of the publisher.  Limited to 20 characters. */
     private String phone;
 
-    @Column(nullable = false, length = 30)
-    /** The email of the publisher.  Limited to 30 characters. */
+    @Column(nullable = false, length = 50)
+    /** The email of the publisher.  Limited to 50 characters. */
     private String email;
 
     /** Default constructor that creates a Publisher. */
