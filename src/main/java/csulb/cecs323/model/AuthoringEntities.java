@@ -26,6 +26,14 @@ import javax.persistence.*;
         resultClass = AuthoringEntities.class
 )
 
+@NamedNativeQuery(
+        name="ReturnEntitiesWithName",
+        query = "SELECT name " +
+                "FROM   authoringEntities " +
+                "WHERE  name = ? ",
+        resultClass = AuthoringEntities.class
+)
+
 /**
  * A writer of a book. Could be a single individual, a writing group, or an AD Hoc Team.
  */

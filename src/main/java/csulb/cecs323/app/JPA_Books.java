@@ -404,9 +404,9 @@ public class JPA_Books {
                authortx.begin();
 
                switch ( authorMenuOption ) { //TODO: Gracefully handle exceptions that occur when authors have indeitical PK
-                  case 1: //good
-                     System.out.println("\n== Add Writing Group ==");
+                  case 1: // Add Writing Group
 
+                     System.out.println("\n== Add Writing Group ==");
                      System.out.println("Please enter the name of the writing group:");
                      String grpName = getString();
                      System.out.println("Please enter the E-mail of the writing group:");
@@ -415,6 +415,17 @@ public class JPA_Books {
                      String grpHeadAuth = getString();
                      System.out.println("Please enter the year the writing group was formed:");
                      int grpYearFormed = getIntRange(1440,2022);
+
+                     List<AuthoringEntities> gprWithName = books.getEntitiesWithName(grpName);
+                     if (gprWithName.size() == 0) {
+                        writingGroups.add(new WritingGroups(grpName, grpEmail, grpHeadAuth,grpYearFormed));
+                        books.createEntity(publishers);  //persist publishers right after being created
+                     } else {
+                        System.out.println("Sorry, this publisher already exists within the database!");
+                     }
+
+
+
 
                      WritingGroups newGroup = new WritingGroups(grpName, grpEmail, grpHeadAuth, grpYearFormed); //creates new writing group based on input
                      writingGroups.add(newGroup); //add new writing group to writingGroups and authoringEntities
@@ -551,10 +562,10 @@ public class JPA_Books {
       return publishersWithName;
    }
 
-   public List<Books> getBooksWithISBN(String ISBN) { // Retrieves all publishers with this name into a list
-      List<Books> booksWithISBN = this.entityManager.createNamedQuery("ReturnBooksWithISBN",
-              Books.class).setParameter(1, ISBN).getResultList();
-      return booksWithISBN;
+   public List<AuthoringEntities> getEntitiesWithName(String name) { // Retrieves all publishers with this name into a list
+      List<AuthoringEntities> ReturnEntitiesWithName = this.entityManager.createNamedQuery("ReturnEntitiesWithName",
+              AuthoringEntities.class).setParameter(1, name).getResultList();
+      return ReturnEntitiesWithName;
    }
 
 
