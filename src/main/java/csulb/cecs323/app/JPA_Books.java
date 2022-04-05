@@ -198,15 +198,16 @@ public class JPA_Books {
                      break;
 
                   case 3: //good
-                     System.out.println("\n== Publisher Primary Key Information ==");
+                     System.out.println("\n== Publisher Primary Key Information ==\n");
                      List<Publishers> publisherPKs = books.getPublisherPKs();
                      for( int i = 0; i < publisherPKs.size(); i++ ) {
-                        System.out.println(publisherPKs.get(i).getName() + "\n");
+                        System.out.println(publisherPKs.get(i).getName());
                      }
+                     System.out.println();
                      break;
 
                   case 4: //Return to Main Menu
-                     System.out.println("Returning to Main Menu...");
+                     System.out.println("Returning to Main Menu...\n");
                      break;
                }
 
@@ -326,14 +327,15 @@ public class JPA_Books {
                      break;
 
                   case 5: //TODO: Newly added books are not displayed
-                     System.out.println("\n== Book Primary Key Information ==");
+                     System.out.println("\n== Book Primary Key Information ==\n");
                      List<Books> bookPKs = books.getBookPKs();
                      for( int i = 0; i < bookPKs.size(); i++ ) {
-                        System.out.println(bookPKs.get(i).getTitle() + ", " + bookPKs.get(i).getISBN() + "\n");
+                        System.out.println(bookPKs.get(i).getTitle() + ", " + bookPKs.get(i).getISBN());
                      }
+                     System.out.println();
                      break;
                   case 6: //Return to Main Menu
-                     System.out.println("Returning to Main Menu...");
+                     System.out.println("Returning to Main Menu...\n");
                      break;
                }
                // Commit the changes so that the new data persists and is visible to other users.
@@ -398,9 +400,9 @@ public class JPA_Books {
                   case 4:  //TODO: Gracefully handle exception that occurs when author tries to get added to team they're already on
                      System.out.println("\n== Add Author to Ad Hoc Team ==");
                      for( int i = 0; i < individualAuthors.size(); i++ ) {
-                        System.out.println((i+1) + ": " + individualAuthors.get(i).getName() + "\n");
+                        System.out.println((i+1) + ": " + individualAuthors.get(i).getName());
                      }
-                     System.out.println("Please select one of the above Individual Authors to add to an Ad Hoc Team: ");
+                     System.out.println("\nPlease select one of the above Individual Authors to add to an Ad Hoc Team: ");
                      int individualSelection = getIntRange(1, individualAuthors.size());
                      IndividualAuthors individualChoice = individualAuthors.get(individualSelection-1);
 
@@ -426,13 +428,14 @@ public class JPA_Books {
                      + "\nWriting group head writer: " + groupChoice.getHeadWriter() + "\nWriting group year formed: " + groupChoice.getYearFormed() + "\n");
                      break;
                   case 6: //good
-                     System.out.println("\n== Authoring Entity Primary Key Information ==");
+                     System.out.println("\n== Authoring Entity Primary Key Information ==\n");
                      for( int i = 0; i < authoringEntities.size(); i++ ) {
-                        System.out.println(authoringEntities.get(i).getEmail() + "\n");
+                        System.out.println(authoringEntities.get(i).getEmail());
                      }
+                     System.out.println();
                      break;
                   case 7: //Return to Main Menu
-                     System.out.println("Returning to Main Menu...");
+                     System.out.println("Returning to Main Menu...\n");
                      break;
                }
                // Commit the changes so that the new data persists and is visible to other users.
