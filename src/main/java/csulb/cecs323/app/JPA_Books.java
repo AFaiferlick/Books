@@ -229,7 +229,7 @@ public class JPA_Books {
                EntityTransaction booktx = manager.getTransaction();
                booktx.begin();
 
-               switch ( bookMenuOption ) { //TODO: Gracefully handle exceptions that occur when books have indentical PK
+               switch ( bookMenuOption ) {
                   case 1: //good
                      System.out.println("\n== Add New Book ==");
 
@@ -472,6 +472,8 @@ public class JPA_Books {
                      System.out.println("Please select one of the above Ad Hoc Teams to add the Individual Author to: ");
                      int teamSelection = getIntRange(1, adHocTeams.size());
                      AdHocTeams teamChoice = adHocTeams.get(teamSelection-1);
+
+
 
                      teamChoice.addIndividualAuthor(individualChoice);
                      System.out.println("Individual Author " + individualChoice.getName() + " has been added to the Ad Hoc Team " + teamChoice.getName());
