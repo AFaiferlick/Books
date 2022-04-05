@@ -156,15 +156,14 @@ public class JPA_Books {
          int groupSelection = 0;
          WritingGroups groupChoice = null;
 
-         switch ( menuOption ) {
+         switch ( menuOption ) { //TODO: Gracefully handle exceptions that occur when publishers have indentical PK
             case 1: //Publisher Menu Options
                System.out.println("\n== Publishers ==\nChoose an option:\n1. Add New Publisher\n" +
                        "2. List Publisher Information\n3. Publisher Primary Key Information\n4. Return to Main Menu");
                int publisherMenuOption = getIntRange(1,4);
 
-               LOGGER.fine("Begin of Transaction");
+               LOGGER.fine("Beginning of Transaction");
                EntityTransaction publishertx = manager.getTransaction();
-
                publishertx.begin();
 
                switch ( publisherMenuOption ) {
@@ -221,7 +220,11 @@ public class JPA_Books {
                        "3. Delete Book\n4. List Book Information\n5. Book Primary Key Information\n6. Return to Main Menu");
                int bookMenuOption = getIntRange(1,6);
 
-               switch ( bookMenuOption ) {
+               LOGGER.fine("Beginning of Transaction");
+               EntityTransaction booktx = manager.getTransaction();
+               booktx.begin();
+
+               switch ( bookMenuOption ) { //TODO: Gracefully handle exceptions that occur when books have indentical PK
                   case 1: //good
                      System.out.println("\n== Add New Book ==");
 
@@ -330,6 +333,9 @@ public class JPA_Books {
                      System.out.println("Returning to Main Menu...");
                      break;
                }
+               // Commit the changes so that the new data persists and is visible to other users.
+               booktx.commit();
+               LOGGER.fine("End of Transaction");
                break;
 
             case 3: //Authoring Entities Options
@@ -339,7 +345,11 @@ public class JPA_Books {
                        "\n7. Return to Main Menu");
                int authorMenuOption = getIntRange(1,7);
 
-               switch ( authorMenuOption ) {
+               LOGGER.fine("Beginning of Transaction");
+               EntityTransaction authortx = manager.getTransaction();
+               authortx.begin();
+
+               switch ( authorMenuOption ) { //TODO: Gracefully handle exceptions that occur when authors have indeitical PK
                   case 1: //good
                      System.out.println("\n== Add Writing Group ==");
 
@@ -422,6 +432,9 @@ public class JPA_Books {
                      System.out.println("");
                      break;
                }
+               // Commit the changes so that the new data persists and is visible to other users.
+               authortx.commit();
+               LOGGER.fine("End of Transaction");
                break;
 
             case 4: //Exit program
