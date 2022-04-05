@@ -480,7 +480,7 @@ public class JPA_Books {
                         books.createEntity(authoringEntities);
                      }
                      break;
-                  case 4:  //TODO: Gracefully handle exception that occurs when author tries to get added to team they're already on
+                  case 4:
                      System.out.println("\n== Add Author to Ad Hoc Team ==");
                      for( int i = 0; i < individualAuthors.size(); i++ ) {
                         System.out.println((i+1) + ": " + individualAuthors.get(i).getName());
@@ -496,10 +496,19 @@ public class JPA_Books {
                      int teamSelection = getIntRange(1, adHocTeams.size());
                      AdHocTeams teamChoice = adHocTeams.get(teamSelection-1);
 
-
-
-                     teamChoice.addIndividualAuthor(individualChoice);
-                     System.out.println("Individual Author " + individualChoice.getName() + " has been added to the Ad Hoc Team " + teamChoice.getName());
+                     List<AdHocTeams> individualsTeams = individualChoice.getAdHocTeams();
+                     notDuplicate = true;
+                     for( int i = 0; i < individualsTeams.size(); i++ ) {
+                        if (individualsTeams.get(i).getName().equals(teamChoice.getName())) {
+                           notDuplicate = false;
+                           System.out.println("Sorry, the Author is already part of this Ad Hoc Team!");
+                           break;
+                        }
+                     }
+                     if (notDuplicate) {
+                        teamChoice.addIndividualAuthor(individualChoice);
+                        System.out.println("Individual Author " + individualChoice.getName() + " has been added to the Ad Hoc Team " + teamChoice.getName());
+                     }
                      break;
                   case 5: //good
                      System.out.println("\n== List Writing Group Information ==");
