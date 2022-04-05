@@ -9,7 +9,7 @@ import javax.persistence.*;
 @DiscriminatorValue("Ad Hoc Teams")
 public class AdHocTeams extends AuthoringEntities {
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "adHocTeamsList")
     List<IndividualAuthors> individualAuthorsList;
 
     /**
