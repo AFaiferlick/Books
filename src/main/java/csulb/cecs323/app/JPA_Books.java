@@ -261,28 +261,65 @@ public class JPA_Books {
                      break;
 
                   case 2:
-//                     System.out.println("\n== Update Book ==");
-//                     // enter book title
-//                     System.out.println("Enter publisher ISBN for Book: "); // ISBN
-//                     Books.add(getString());
-//
-//                     System.out.println("Enter title of Book: "); // title
-//                     Books.add(getString()); // this should just be omitted or just enter the value of the found book
-//                     (essentially overwrites the name with the same name)
-//
-//                     System.out.println("Enter the Year the Book was published: "); // Year Published
-//                     Books.add(getString());
-//
-//                     System.out.println("Enter the publisher's name: "); // publisher
-//                     Books.add(getString());
-//
-//                     System.out.println("Enter Name of the Author: "); // authoringEntity
-//                     Books.add(getString());
-//
-//                     Books.add(new Books(Books.get(0), Books.get(1), Books.get(2)));
-//                     publishersAttributes.clear();
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     System.out.println("\n== Update Book ==");
+                     System.out.println("+========= List of All Books =========+");
+                     // List all books from the database so the user can pick one to delete.
+                     for (int i=0; i<booksList.size(); i++) {
+                        System.out.println(i+1 + "\t" + booksList.get(i).getTitle());
+                     }
+                     System.out.println("\nPlease choose one book from the list above to update it: ");
+                     int bookToUpdate = getIntRange(1, booksList.size());
+                     Books updatedBook = booksList.get(bookToUpdate-1);
+
+                     books.createEntity(booksList); // Not sure if I need this
+                     int updateChoice = 0;
+
+                     do {
+                        System.out.println("What what you like to update?\n1. Publication Year\n2. Publisher\n" +
+                                "3. Authoring Entity\n4. Exit");
+                        updateChoice = getIntRange(1, 4);
+
+                        switch (updateChoice) {
+                              case 1: // Update Publication Year
+                                 System.out.println("Enter new Publication Year: ");
+                                 int updatedPublicationYear = getIntRange(1440, 2022);
+                                 System.out.print(updatedBook.getYear_published() + " has been changed to: ");
+                                 updatedBook.setYear_published(updatedPublicationYear);
+                                 System.out.println(updatedBook.getYear_published() + "\n");
+                                 break;
+                              case 2: // Update Publisher
+                                 // Prompt user to choose from valid publishers for updating publisher.
+                                 System.out.println("---- Available Publishers ----\n");
+                                 for (int i = 0; i < publishers.size(); i++) {
+                                    System.out.println((i + 1) + ": " + publishers.get(i).getName());
+                                 }
+                                 System.out.println("\nChoose one of the publishers listed above to update the current publisher: ");
+                                 publisherSelection = getIntRange(1, publishers.size());
+                                 publisherChoice = publishers.get(publisherSelection - 1);
+
+                                 System.out.print(updatedBook.getPublisher().getName() + " has been changed to: ");
+                                 updatedBook.setPublisher(publisherChoice);
+                                 System.out.println(updatedBook.getPublisher().getName() + "\n");
+                                 break;
+                              case 3: // Update Authoring Entity
+                                 System.out.println("---- Available Authoring Entities ----\n");
+                                 for( int i = 0; i < authoringEntities.size(); i++ ) {
+                                    System.out.println((i+1) + ": " + authoringEntities.get(i).getName());
+                                 }
+                                 System.out.println("\nChoose one of the authoring entities listed above to update the current authoring entity:");
+                                 authorSelection = getIntRange(1, authoringEntities.size());
+                                 authorChoice = authoringEntities.get(authorSelection-1);
+
+                                 System.out.print(updatedBook.getAuthoringEntity().getName() + " has been changed to: ");
+                                 updatedBook.setAuthoringEntity(authorChoice);
+                                 System.out.println(updatedBook.getAuthoringEntity().getName() + "\n");
+                                 break;
+                              case 4:
+                                 System.out.println("\nExiting...\n");
+                                 break;
+                           }
+                     } while (updateChoice != 4);
+
                      break;
                   case 3:
                      System.out.println("\n== Delete Book ==");
@@ -294,7 +331,7 @@ public class JPA_Books {
                      }
                      System.out.println("========================================");
 
-                     System.out.println("Enter sequence number of the book you wish to delete: ");
+                     System.out.println("\nEnter sequence number of the book you wish to delete: ");
                      int bookToDelete = getIntRange(1, booksList.size());
 
                      System.out.println("Do you wish to delete " + booksList.get(bookToDelete-1).getTitle() + " (Y/N)?");
@@ -302,6 +339,8 @@ public class JPA_Books {
 
                      if (userChoice.equals("Y")) {
                         // TO DO: Implement the deletion of chosen book from the database.
+                        //booksList.get(bookToDelete-1);
+                        manager.remove(booksList.get(bookToDelete-1));
                         booksList.remove(bookToDelete-1); // removes by index number
                         // might need to commit.
                      } else {
