@@ -301,6 +301,7 @@ public class JPA_Books {
                         // might need to commit.
                      } else {
                         System.out.println(booksList.get(bookToDelete-1).getTitle() + " was not deleted.");
+                        //test
                      }
 
                      break;
