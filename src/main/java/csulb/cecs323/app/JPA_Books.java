@@ -394,7 +394,7 @@ public class JPA_Books {
                      books.createEntity(adHocTeams);
                      books.createEntity(authoringEntities);
                      break;
-                  case 4:
+                  case 4:  //TODO: Gracefully handle exception that occurs when author tries to get added to team they're already on
                      System.out.println("\n== Add Author to Ad Hoc Team ==");
                      for( int i = 0; i < individualAuthors.size(); i++ ) {
                         System.out.println((i+1) + ": " + individualAuthors.get(i).getName() + "\n");
@@ -427,7 +427,7 @@ public class JPA_Books {
                   case 6: //good
                      System.out.println("\n== Authoring Entity Primary Key Information ==");
                      for( int i = 0; i < authoringEntities.size(); i++ ) {
-                        System.out.println(authoringEntities.get(i).getName() + ", " + authoringEntities.get(i).getEmail() + "\n");
+                        System.out.println(authoringEntities.get(i).getEmail() + "\n");
                      }
                      break;
                   case 7: //Return to Main Menu
