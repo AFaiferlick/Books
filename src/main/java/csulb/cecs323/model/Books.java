@@ -38,6 +38,14 @@ import javax.persistence.*;
         resultClass = Books.class
 )
 
+@NamedNativeQuery(
+        name="ReturnBookPKs",
+        query = "SELECT title, ISBN " +
+                "FROM   BOOKS " +
+                "ORDER BY title asc ",
+        resultClass = Books.class
+)
+
 /**
  * A long written or printed literary composition.
  */

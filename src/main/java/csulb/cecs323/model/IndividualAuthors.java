@@ -26,8 +26,8 @@ public class IndividualAuthors extends AuthoringEntities {
      * @param name  The Name of the Author
      * @param email The Email of the Author
      */
-    public IndividualAuthors(String email, String name) {
-        super(email, name);
+    public IndividualAuthors(String name, String email) {
+        super(name, email);
         adHocTeamsList = new ArrayList<>();
     }
 

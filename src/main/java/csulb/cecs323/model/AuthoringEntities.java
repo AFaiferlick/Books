@@ -59,7 +59,7 @@ public abstract class AuthoringEntities {
     }
 
     /** Retrieves the name of the authoring entity.
-     * @return name  The name of the  authoring entity.
+     * @return name  The name of the authoring entity.
      */
     public String getName() {
         return name;

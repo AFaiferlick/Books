@@ -110,19 +110,19 @@ public class JPA_Books {
       publishers.add(new Publishers("Harper Collins", "800-242-7737", "harpercollins.en.cs@digitalriver.com"));
       books.createEntity(publishers);
 
-      IndividualAuthors individual1 = new IndividualAuthors("TimTebow@gmail.com", "Tim Tebow");
-      IndividualAuthors individual2 = new IndividualAuthors("MattLarsen@gmail.com", "Matt Larsen");
+      IndividualAuthors individual1 = new IndividualAuthors("Tim Tebow", "TimTebow@gmail.com");
+      IndividualAuthors individual2 = new IndividualAuthors("Matt Larsen", "MattLarsen@gmail.com");
       individualAuthors.add(individual1);
       individualAuthors.add(individual2);
       books.createEntity(individualAuthors);
 
-      AdHocTeams team1 = new AdHocTeams("vapublicaffairs@va.gov", "US Army");
+      AdHocTeams team1 = new AdHocTeams("US Army", "vapublicaffairs@va.gov");
       adHocTeams.add(team1);
       team1.addIndividualAuthor(individual2); //added an individual to an ad hoc team
       individual2.addAdHocTeam(team1); //added ad hoc team membership to an individual
       books.createEntity(adHocTeams);
 
-      WritingGroups group1 = new WritingGroups("ErinHunter@gmail.com", "Erin Hunter", "Victoria Holmes", 2003);
+      WritingGroups group1 = new WritingGroups("Erin Hunter", "ErinHunter@gmail.com", "Victoria Holmes", 2003);
       writingGroups.add(group1);
       books.createEntity(writingGroups);
 
@@ -219,7 +219,7 @@ public class JPA_Books {
                int bookMenuOption = getIntRange(1,6);
 
                switch ( bookMenuOption ) {
-                  case 1:
+                  case 1: //good
                      System.out.println("\n== Add New Book ==");
 
                      System.out.println("Enter publisher ISBN for Book: "); // ISBN
@@ -296,7 +296,7 @@ public class JPA_Books {
                      }
 
                      break;
-                  case 4:
+                  case 4: //good
                      System.out.println("\n== List Book Information ==");
                      System.out.println("------- Available Books: -------\n");
                      for( int i = 0; i < booksList.size(); i++ ) {
@@ -312,14 +312,16 @@ public class JPA_Books {
                      System.out.println("ISBN: " + bookChoice.getISBN()
                              + "\nBook Title: " + bookChoice.getTitle()
                              + "\nYear Published: " + bookChoice.getYear_published()
-                             + "\nPublisher: " + bookChoice.getPublisher()
-                             + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity());
+                             + "\nPublisher: " + bookChoice.getPublisher().getName()
+                             + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity().getName());
                      break;
 
-                  case 5:
+                  case 5: //good, most likely. TODO: Check if Brown likes book title + ISBN for book PK info
                      System.out.println("\n== Book Primary Key Information ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     List<Books> bookPKs = books.getBookPKs();
+                     for( int i = 0; i < bookPKs.size(); i++ ) {
+                        System.out.println(bookPKs.get(i).getTitle() + ", " + bookPKs.get(i).getISBN() + "\n");
+                     }
                      break;
                   case 6: //Return to Main Menu
                      System.out.println("Returning to Main Menu...");
@@ -426,6 +428,12 @@ public class JPA_Books {
    public List<Books> getBookList() { // Retrieves all books into a list
       List<Books> books = this.entityManager.createNamedQuery("ReturnBookList", Books.class).getResultList();
       return books;
+   }
+
+   public List<Books> getBookPKs() { // Retrieves all publisher PKs into a list
+      List<Books> BookPKs =
+              this.entityManager.createNamedQuery("ReturnBookPKs", Books.class).getResultList();
+      return BookPKs;
    }
 
    public List<Publishers> getPublisherList() { // Retrieves all publishers into a list

@@ -41,9 +41,9 @@ public class WritingGroups extends AuthoringEntities {
      * @param headWriter        The head writer for the writing group.
      * @param yearFormed        The year the writing group was formed.
      */
-    public WritingGroups(String email, String name, String headWriter, int yearFormed)
+    public WritingGroups(String name, String email, String headWriter, int yearFormed)
     {
-        super(email, name);  //calls parent's constructor for email and name, assigns email and name
+        super(name, email);  //calls parent's constructor for email and name, assigns email and name
         this.headWriter = headWriter;
         this.yearFormed = yearFormed;
     }
