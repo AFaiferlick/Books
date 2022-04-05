@@ -574,6 +574,11 @@ public class JPA_Books {
       return ReturnEntitiesWithName;
    }
 
+   public List<Books> getBooksWithISBN(String ISBN) { // Retrieves all publishers with this name into a list
+      List<Books> booksWithISBN = this.entityManager.createNamedQuery("ReturnBooksWithISBN",
+              Books.class).setParameter(1, ISBN).getResultList();
+      return booksWithISBN;
+   }
 
    /**
     * Checks if the inputted value is an integer and
