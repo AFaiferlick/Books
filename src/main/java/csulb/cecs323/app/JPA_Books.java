@@ -271,32 +271,19 @@ public class JPA_Books {
                      int updateChoice = 0;
 
                      do {
-                        System.out.println("What what you like to update?\n1. ISBN\n2. Book Title\n3. Publication Year\n4. Publisher\n" +
-                                "5. Authoring Entity\n6. Exit");
-                        updateChoice = getIntRange(1, 6);
+                        System.out.println("What what you like to update?\n1. Publication Year\n2. Publisher\n" +
+                                "3. Authoring Entity\n4. Exit");
+                        updateChoice = getIntRange(1, 4);
 
                         switch (updateChoice) {
-                              case 1: // Changing the ISBN throws an Exception
-                                 System.out.println("Enter new ISBN: ");
-                                 String newISBN = in.next();
-                                 System.out.print(updatedBook.getISBN() + " has been changed to: ");
-                                 updatedBook.setISBN(newISBN);
-                                 System.out.println(updatedBook.getISBN() + "\n");
-                                 break;
-                              case 2: // Changing the Book Title throws an Exception
-                                 System.out.println("Enter new Book Title: ");
-                                 String newBookTitle = getString();
-                                 System.out.println(updatedBook.getTitle() + " has been changed to: " + newBookTitle + "\n");
-                                 updatedBook.setTitle(newBookTitle);
-                                 break;
-                              case 3:
+                              case 1: // Update Publication Year
                                  System.out.println("Enter new Publication Year: ");
                                  int updatedPublicationYear = getIntRange(1440, 2022);
                                  System.out.print(updatedBook.getYear_published() + " has been changed to: ");
                                  updatedBook.setYear_published(updatedPublicationYear);
                                  System.out.println(updatedBook.getYear_published() + "\n");
                                  break;
-                              case 4:
+                              case 2: // Update Publisher
                                  // Prompt user to choose from valid publishers for updating publisher.
                                  System.out.println("---- Available Publishers ----\n");
                                  for (int i = 0; i < publishers.size(); i++) {
@@ -310,7 +297,7 @@ public class JPA_Books {
                                  updatedBook.setPublisher(publisherChoice);
                                  System.out.println(updatedBook.getPublisher().getName() + "\n");
                                  break;
-                              case 5:
+                              case 3: // Update Authoring Entity
                                  System.out.println("---- Available Authoring Entities ----\n");
                                  for( int i = 0; i < authoringEntities.size(); i++ ) {
                                     System.out.println((i+1) + ": " + authoringEntities.get(i).getName());
@@ -323,11 +310,11 @@ public class JPA_Books {
                                  updatedBook.setAuthoringEntity(authorChoice);
                                  System.out.println(updatedBook.getAuthoringEntity().getName() + "\n");
                                  break;
-                              case 6:
-                                 System.out.println("Exiting...");
+                              case 4:
+                                 System.out.println("\nExiting...\n");
                                  break;
                            }
-                     } while (updateChoice != 6);
+                     } while (updateChoice != 4);
 
                      break;
                   case 3:
