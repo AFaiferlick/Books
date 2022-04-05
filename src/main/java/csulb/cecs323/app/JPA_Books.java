@@ -155,7 +155,7 @@ public class JPA_Books {
          int groupSelection = 0;
          WritingGroups groupChoice = null;
 
-         switch ( menuOption ) { //TODO: Gracefully handle exceptions that occur when publishers have indentical PK
+         switch ( menuOption ) {
             case 1: //Publisher Menu Options
                System.out.println("\n== Publishers ==\nChoose an option:\n1. Add New Publisher\n" +
                        "2. List Publisher Information\n3. Publisher Primary Key Information\n4. Return to Main Menu");
@@ -369,7 +369,7 @@ public class JPA_Books {
                              + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity().getName() + "\n");
                      break;
 
-                  case 5: //TODO: Newly added books are not displayed
+                  case 5:
                      System.out.println("\n== Book Primary Key Information ==\n");
                      List<Books> bookPKs = books.getBookPKs();
                      for( int i = 0; i < bookPKs.size(); i++ ) {
@@ -398,9 +398,9 @@ public class JPA_Books {
                authortx.begin();
 
                switch ( authorMenuOption ) { //TODO: Gracefully handle exceptions that occur when authors have indeitical PK
-                  case 1: //good
-                     System.out.println("\n== Add Writing Group ==");
+                  case 1: // Add Writing Group
 
+                     System.out.println("\n== Add Writing Group ==");
                      System.out.println("Please enter the name of the writing group:");
                      String grpName = getString();
                      System.out.println("Please enter the E-mail of the writing group:");
@@ -409,6 +409,17 @@ public class JPA_Books {
                      String grpHeadAuth = getString();
                      System.out.println("Please enter the year the writing group was formed:");
                      int grpYearFormed = getIntRange(1440,2022);
+
+                     List<AuthoringEntities> gprWithName = books.getEntitiesWithName(grpName);
+                     if (gprWithName.size() == 0) {
+                        writingGroups.add(new WritingGroups(grpName, grpEmail, grpHeadAuth,grpYearFormed));
+                        books.createEntity(publishers);  //persist publishers right after being created
+                     } else {
+                        System.out.println("Sorry, this publisher already exists within the database!");
+                     }
+
+
+
 
                      WritingGroups newGroup = new WritingGroups(grpName, grpEmail, grpHeadAuth, grpYearFormed); //creates new writing group based on input
                      writingGroups.add(newGroup); //add new writing group to writingGroups and authoringEntities
@@ -541,6 +552,12 @@ public class JPA_Books {
       List<Publishers> publishersWithName = this.entityManager.createNamedQuery("ReturnPublishersWithName",
               Publishers.class).setParameter(1, name).getResultList();
       return publishersWithName;
+   }
+
+   public List<AuthoringEntities> getEntitiesWithName(String name) { // Retrieves all publishers with this name into a list
+      List<AuthoringEntities> ReturnEntitiesWithName = this.entityManager.createNamedQuery("ReturnEntitiesWithName",
+              AuthoringEntities.class).setParameter(1, name).getResultList();
+      return ReturnEntitiesWithName;
    }
 
 
