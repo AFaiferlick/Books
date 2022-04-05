@@ -100,7 +100,6 @@ public class JPA_Books {
       List <IndividualAuthors> individualAuthors = new ArrayList<IndividualAuthors>();
       List <AdHocTeams> adHocTeams = new ArrayList<AdHocTeams>();
 
-      ArrayList<String> publishersAttributes = new ArrayList<String>();  //will store publisher name, phone#, and email
       List <Books> newBook = new ArrayList<Books>();
       Scanner in = new Scanner( System.in );
       //End of Variables
@@ -171,17 +170,22 @@ public class JPA_Books {
                      System.out.println("\n== Add New Publisher ==");
 
                      System.out.println("Enter publisher name: ");
-                     publishersAttributes.add(getString());
+                     String pubName = getString();
 
                      System.out.println("Enter publisher phone: ");
-                     publishersAttributes.add(getString());
+                     String pubPhone = getString();
 
                      System.out.println("Enter publisher email: ");
-                     publishersAttributes.add(getString());
+                     String pubEmail = getString();
 
-                     publishers.add(new Publishers(publishersAttributes.get(0), publishersAttributes.get(1), publishersAttributes.get(2)));
-                     books.createEntity(publishers);  //persist publishers right after being created
-                     publishersAttributes.clear();
+                     List<Publishers> pubsWithName = books.getPublishersWithName(pubName);
+                     if (pubsWithName.size() == 0) {
+                        publishers.add(new Publishers(pubName, pubPhone, pubEmail));
+                        books.createEntity(publishers);  //persist publishers right after being created
+                     } else {
+                        System.out.println("Sorry, this publisher already exists within the database!");
+                     }
+
                      break;
 
                   case 2: //good
@@ -494,6 +498,12 @@ public class JPA_Books {
       return publisherPKs;
    }
 
+   public List<Publishers> getPublishersWithName(String name) { // Retrieves all publishers with this name into a list
+      List<Publishers> publishersWithName = this.entityManager.createNamedQuery("ReturnPublishersWithName",
+              Publishers.class).setParameter(1, name).getResultList();
+      return publishersWithName;
+   }
+
 
    /**
     * Checks if the inputted value is an integer and
@@ -531,26 +541,4 @@ public class JPA_Books {
       String input = in.nextLine();
       return input;
    }
-
-//   /**
-//    * Think of this as a simple map from a String to an instance of auto_body_styles that has the
-//    * same name, as the string that you pass in.  To create a new Cars instance, you need to pass
-//    * in an instance of auto_body_styles to satisfy the foreign key constraint, not just a string
-//    * representing the name of the style.
-//    * @param name       The name of the autobody style that you are looking for.
-//    * @return           The auto_body_styles instance corresponding to that style name.
-//    */
-//   public auto_body_styles getStyle (String name) {
-//      // Run the native query that we defined in the auto_body_styles entity to find the right style.
-//      List<auto_body_styles> styles = this.entityManager.createNamedQuery("ReturnAutoBodyStyle",
-//              auto_body_styles.class).setParameter(1, name).getResultList();
-//      if (styles.size() == 0) {
-//         // Invalid style name passed in.
-//         return null;
-//      } else {
-//         // Return the style object that they asked for.
-//         return styles.get(0);
-//      }
-//   }// End of the getStyle method
-
-} // End of CarClub class
+}

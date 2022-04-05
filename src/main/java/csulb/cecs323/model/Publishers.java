@@ -30,6 +30,14 @@ import javax.persistence.NamedNativeQuery;
         resultClass = Publishers.class
 )
 
+@NamedNativeQuery(
+        name="ReturnPublishersWithName",
+        query = "SELECT name " +
+                "FROM   PUBLISHERS " +
+                "WHERE  name = ? ",
+        resultClass = Publishers.class
+)
+
 /**
  * A person or company that prepares and issues books, journals, music, or other works for sale..
  */
