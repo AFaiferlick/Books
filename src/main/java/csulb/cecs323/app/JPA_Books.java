@@ -256,8 +256,14 @@ public class JPA_Books {
                      authorSelection = getIntRange(1, authoringEntities.size());
                      authorChoice = authoringEntities.get(authorSelection-1);
 
-                     booksList.add(0, new Books(ISBN, bookTitle, yearPublished, publisherChoice, authorChoice)); //creates new book based on input
-                     books.createEntity(booksList); //persists new book within bookList ArrayList
+                     List<Books> booksWithISBN = books.getBooksWithISBN(ISBN);
+                     if (booksWithISBN.size() == 0) {
+                        booksList.add(0, new Books(ISBN, bookTitle, yearPublished, publisherChoice, authorChoice)); //creates new book based on input
+                        books.createEntity(booksList); //persists new book within bookList ArrayList
+                     } else {
+                        System.out.println("Sorry, this book ISBN already exists within the database!");
+                     }
+
                      break;
 
                   case 2:
@@ -541,6 +547,12 @@ public class JPA_Books {
       List<Publishers> publishersWithName = this.entityManager.createNamedQuery("ReturnPublishersWithName",
               Publishers.class).setParameter(1, name).getResultList();
       return publishersWithName;
+   }
+
+   public List<Books> getBooksWithISBN(String ISBN) { // Retrieves all publishers with this name into a list
+      List<Books> booksWithISBN = this.entityManager.createNamedQuery("ReturnBooksWithISBN",
+              Books.class).setParameter(1, ISBN).getResultList();
+      return booksWithISBN;
    }
 
 

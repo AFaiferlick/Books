@@ -46,6 +46,14 @@ import javax.persistence.*;
         resultClass = Books.class
 )
 
+@NamedNativeQuery(
+        name="ReturnBooksWithISBN",
+        query = "SELECT ISBN " +
+                "FROM   books " +
+                "WHERE  ISBN = ? ",
+        resultClass = Books.class
+)
+
 /**
  * A long written or printed literary composition.
  */
