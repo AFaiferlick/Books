@@ -42,8 +42,8 @@ public abstract class AuthoringEntities {
     /** The name of the authoring entity. Limited to 30 characters. */
     private String name;
 
-    @Column(nullable = false, length = 50)
-    /** The email of the authoring entity. Limited to 50 characters. */
+    @Column(nullable = false, length = 40)
+    /** The email of the authoring entity. Limited to 40 characters. */
     private String email;
 
     /** Default constructor that creates an Authoring Entity. */
