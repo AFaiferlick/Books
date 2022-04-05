@@ -8,14 +8,6 @@ import javax.persistence.NamedNativeQuery;
 import javax.persistence.DiscriminatorValue;
 
 @Entity
-@NamedNativeQuery(
-        name="ReturnWritingGroup",
-        query = "SELECT * " +
-                "FROM   authoringEntities " +
-                "WHERE  email = ? AND authoringEntityType = ?",
-        resultClass = WritingGroups.class
-)
-
 @DiscriminatorValue("Writing Groups")
 public class WritingGroups extends AuthoringEntities {
     @Column(length = 20)

@@ -403,7 +403,7 @@ public class JPA_Books {
                EntityTransaction authortx = manager.getTransaction();
                authortx.begin();
 
-               switch ( authorMenuOption ) { //TODO: Gracefully handle exceptions that occur when authors have indeitical PK
+               switch ( authorMenuOption ) {
                   case 1: // Add Writing Group
 
                      System.out.println("\n== Add Writing Group ==");
@@ -416,22 +416,21 @@ public class JPA_Books {
                      System.out.println("Please enter the year the writing group was formed:");
                      int grpYearFormed = getIntRange(1440,2022);
 
-                     List<AuthoringEntities> gprWithName = books.getEntitiesWithName(grpName);
-                     if (gprWithName.size() == 0) {
-                        writingGroups.add(new WritingGroups(grpName, grpEmail, grpHeadAuth,grpYearFormed));
-                        books.createEntity(publishers);  //persist publishers right after being created
-                     } else {
-                        System.out.println("Sorry, this publisher already exists within the database!");
+                     boolean notDuplicate = true;
+                     for( int i = 0; i < writingGroups.size(); i++ ) {
+                        if (writingGroups.get(i).getName().equals(grpName)) {
+                           notDuplicate = false;
+                           System.out.println("Sorry, this writing group already exists!");
+                           break;
+                        }
                      }
-
-
-
-
-                     WritingGroups newGroup = new WritingGroups(grpName, grpEmail, grpHeadAuth, grpYearFormed); //creates new writing group based on input
-                     writingGroups.add(newGroup); //add new writing group to writingGroups and authoringEntities
-                     authoringEntities.add(newGroup);
-                     books.createEntity(writingGroups); //persists new writing group within writingGroups and authoringEntities ArrayLists
-                     books.createEntity(authoringEntities);
+                     if (notDuplicate) {
+                        WritingGroups newGroup = new WritingGroups(grpName, grpEmail, grpHeadAuth, grpYearFormed); //creates new writing group based on input
+                        writingGroups.add(newGroup); //add new writing group to writingGroups and authoringEntities
+                        authoringEntities.add(newGroup);
+                        books.createEntity(writingGroups); //persists new writing group within writingGroups and authoringEntities ArrayLists
+                        books.createEntity(authoringEntities);
+                     }
                      break;
                   case 2: //good
                      System.out.println("\n== Add Individual Author ==");
@@ -439,11 +438,22 @@ public class JPA_Books {
                      String indAuthName = getString();
                      System.out.println("Enter the Authors Email:");
                      String indAuthMail = getString();
-                     IndividualAuthors newIndividual = new IndividualAuthors(indAuthName, indAuthMail); //creates new individual author based on input
-                     individualAuthors.add(newIndividual);
-                     authoringEntities.add(newIndividual);
-                     books.createEntity(individualAuthors);
-                     books.createEntity(authoringEntities);
+
+                     notDuplicate = true;
+                     for( int i = 0; i < individualAuthors.size(); i++ ) {
+                        if (individualAuthors.get(i).getName().equals(indAuthName)) {
+                           notDuplicate = false;
+                           System.out.println("Sorry, this author already exists!");
+                           break;
+                        }
+                     }
+                     if (notDuplicate) {
+                        IndividualAuthors newIndividual = new IndividualAuthors(indAuthName, indAuthMail); //creates new individual author based on input
+                        individualAuthors.add(newIndividual);
+                        authoringEntities.add(newIndividual);
+                        books.createEntity(individualAuthors);
+                        books.createEntity(authoringEntities);
+                     }
                      break;
                   case 3: //good
                      System.out.println("\n== Add Ad Hoc Team ==");
@@ -451,11 +461,22 @@ public class JPA_Books {
                      String teamName = getString();
                      System.out.println("Enter the team's email:");
                      String teamMail = getString();
-                     AdHocTeams newTeam = new AdHocTeams(teamName, teamMail); //creates new team based on input
-                     adHocTeams.add(newTeam);
-                     authoringEntities.add(newTeam);
-                     books.createEntity(adHocTeams);
-                     books.createEntity(authoringEntities);
+
+                     notDuplicate = true;
+                     for( int i = 0; i < adHocTeams.size(); i++ ) {
+                        if (adHocTeams.get(i).getName().equals(teamName)) {
+                           notDuplicate = false;
+                           System.out.println("Sorry, this ad hoc team already exists!");
+                           break;
+                        }
+                     }
+                     if (notDuplicate) {
+                        AdHocTeams newTeam = new AdHocTeams(teamName, teamMail); //creates new team based on input
+                        adHocTeams.add(newTeam);
+                        authoringEntities.add(newTeam);
+                        books.createEntity(adHocTeams);
+                        books.createEntity(authoringEntities);
+                     }
                      break;
                   case 4:  //TODO: Gracefully handle exception that occurs when author tries to get added to team they're already on
                      System.out.println("\n== Add Author to Ad Hoc Team ==");
@@ -562,13 +583,7 @@ public class JPA_Books {
       return publishersWithName;
    }
 
-   public List<AuthoringEntities> getEntitiesWithName(String name) { // Retrieves all publishers with this name into a list
-      List<AuthoringEntities> ReturnEntitiesWithName = this.entityManager.createNamedQuery("ReturnEntitiesWithName",
-              AuthoringEntities.class).setParameter(1, name).getResultList();
-      return ReturnEntitiesWithName;
-   }
-
-   public List<Books> getBooksWithISBN(String ISBN) { // Retrieves all publishers with this name into a list
+   public List<Books> getBooksWithISBN(String ISBN) { // Retrieves all books with this isbn into a list
       List<Books> booksWithISBN = this.entityManager.createNamedQuery("ReturnBooksWithISBN",
               Books.class).setParameter(1, ISBN).getResultList();
       return booksWithISBN;

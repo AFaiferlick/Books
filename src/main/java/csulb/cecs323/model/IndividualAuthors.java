@@ -6,6 +6,14 @@ import java.util.ArrayList;
 import javax.persistence.*;
 
 @Entity
+@NamedNativeQuery(
+        name="ReturnIndividualsWithTeam",
+        query = "SELECT name " +
+                "FROM   individualAuthors " +
+                "WHERE  ISBN = ? ",
+        resultClass = Books.class
+)
+
 @DiscriminatorValue("Individual Authors")
 public class IndividualAuthors extends AuthoringEntities {
 
