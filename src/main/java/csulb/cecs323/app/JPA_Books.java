@@ -432,7 +432,8 @@ public class JPA_Books {
                         books.createEntity(authoringEntities);
                      }
                      break;
-                  case 2: //good
+                  case 2: // Add Individual Author
+
                      System.out.println("\n== Add Individual Author ==");
                      System.out.println("Enter the Author's Name:");
                      String indAuthName = getString();
@@ -455,7 +456,8 @@ public class JPA_Books {
                         books.createEntity(authoringEntities);
                      }
                      break;
-                  case 3: //good
+                  case 3: // Add Ad Hoc Team
+
                      System.out.println("\n== Add Ad Hoc Team ==");
                      System.out.println("Enter the team's name:");
                      String teamName = getString();
