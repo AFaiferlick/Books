@@ -188,13 +188,13 @@ public class JPA_Books {
                      System.out.println("\n== List Publisher Information ==");
 
                      for( int i = 0; i < publishers.size(); i++ ) {
-                        System.out.println((i+1) + ": " + publishers.get(i).getName() + "\n");
+                        System.out.println((i+1) + ": " + publishers.get(i).getName());
                      }
-                     System.out.println("Please select one of the above publishers' information to list: ");
+                     System.out.println("\nPlease select one of the above publishers' information to list: ");
                      publisherSelection = getIntRange(1, publishers.size());
                      publisherChoice = publishers.get(publisherSelection-1);
                      System.out.println("Publisher name: " + publisherChoice.getName() + "\nPublisher email: "
-                             + publisherChoice.getEmail() + "\nPublisher phone number: " + publisherChoice.getPhone());
+                             + publisherChoice.getEmail() + "\nPublisher phone number: " + publisherChoice.getPhone() + "\n");
                      break;
 
                   case 3: //good
@@ -238,16 +238,16 @@ public class JPA_Books {
                      int yearPublished = getIntRange(1440, 2022);
 
                      for( int i = 0; i < publishers.size(); i++ ) {
-                        System.out.println((i+1) + ": " + publishers.get(i).getName() + "\n");
+                        System.out.println((i+1) + ": " + publishers.get(i).getName());
                      }
                      System.out.println("Select which publisher above this book was published by: "); // allows user to select publisher
                      publisherSelection = getIntRange(1, publishers.size());
                      publisherChoice = publishers.get(publisherSelection-1);
 
                      for( int i = 0; i < authoringEntities.size(); i++ ) {
-                        System.out.println((i+1) + ": " + authoringEntities.get(i).getName() + "\n");
+                        System.out.println((i+1) + ": " + authoringEntities.get(i).getName());
                      }
-                     System.out.println("Select which authoring entity above this book was written by: "); // allows user to select author
+                     System.out.println("\nSelect which authoring entity above this book was written by: "); // allows user to select author
                      authorSelection = getIntRange(1, authoringEntities.size());
                      authorChoice = authoringEntities.get(authorSelection-1);
 
@@ -306,12 +306,12 @@ public class JPA_Books {
 
                      break;
                   case 4: //good
-                     System.out.println("\n== List Book Information ==");
+                     System.out.println("\n== List Book Information ==\n");
                      System.out.println("------- Available Books: -------\n");
                      for( int i = 0; i < booksList.size(); i++ ) {
-                        System.out.println((i+1) + ": " + booksList.get(i).getTitle() + "\n");
+                        System.out.println((i+1) + ": " + booksList.get(i).getTitle());
                      }
-                     System.out.println("To list book information, please select one of the books from the above " +
+                     System.out.println("\nTo list book information, please select one of the books from the above " +
                              "list [1-" + booksList.size() + "]: ");
                      int bookSelection = getIntRange(1, booksList.size());
                      Books bookChoice = booksList.get(bookSelection-1);
@@ -322,7 +322,7 @@ public class JPA_Books {
                              + "\nBook Title: " + bookChoice.getTitle()
                              + "\nYear Published: " + bookChoice.getYear_published()
                              + "\nPublisher: " + bookChoice.getPublisher().getName()
-                             + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity().getName());
+                             + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity().getName() + "\n");
                      break;
 
                   case 5: //TODO: Newly added books are not displayed
@@ -405,7 +405,7 @@ public class JPA_Books {
                      IndividualAuthors individualChoice = individualAuthors.get(individualSelection-1);
 
                      for( int i = 0; i < adHocTeams.size(); i++ ) {
-                        System.out.println((i+1) + ": " + adHocTeams.get(i).getName() + "\n");
+                        System.out.println((i+1) + ": " + adHocTeams.get(i).getName());
                      }
                      System.out.println("Please select one of the above Ad Hoc Teams to add the Individual Author to: ");
                      int teamSelection = getIntRange(1, adHocTeams.size());
@@ -417,9 +417,9 @@ public class JPA_Books {
                   case 5: //good
                      System.out.println("\n== List Writing Group Information ==");
                      for( int i = 0; i < writingGroups.size(); i++ ) {
-                        System.out.println((i+1) + ": " + writingGroups.get(i).getName() + "\n");
+                        System.out.println((i+1) + ": " + writingGroups.get(i).getName());
                      }
-                     System.out.println("Please select one of the above writing group' information to list: ");
+                     System.out.println("\nPlease select one of the above writing group' information to list: ");
                      groupSelection = getIntRange(1, writingGroups.size());
                      groupChoice = writingGroups.get(groupSelection-1);
                      System.out.println("Writing group name: " + groupChoice.getName() + "\nWriting group email: " + groupChoice.getEmail()
@@ -432,7 +432,7 @@ public class JPA_Books {
                      }
                      break;
                   case 7: //Return to Main Menu
-                     System.out.println("");
+                     System.out.println("Returning to Main Menu...");
                      break;
                }
                // Commit the changes so that the new data persists and is visible to other users.
