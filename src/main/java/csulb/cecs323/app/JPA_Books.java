@@ -562,12 +562,6 @@ public class JPA_Books {
       return publishersWithName;
    }
 
-   public List<Books> getBooksWithISBN(String ISBN) { // Retrieves all publishers with this name into a list
-      List<Books> booksWithISBN = this.entityManager.createNamedQuery("ReturnBooksWithISBN",
-              Books.class).setParameter(1, ISBN).getResultList();
-      return booksWithISBN;
-   }
-
    public List<AuthoringEntities> getEntitiesWithName(String name) { // Retrieves all publishers with this name into a list
       List<AuthoringEntities> ReturnEntitiesWithName = this.entityManager.createNamedQuery("ReturnEntitiesWithName",
               AuthoringEntities.class).setParameter(1, name).getResultList();
