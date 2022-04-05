@@ -155,7 +155,7 @@ public class JPA_Books {
          int groupSelection = 0;
          WritingGroups groupChoice = null;
 
-         switch ( menuOption ) { //TODO: Gracefully handle exceptions that occur when publishers have indentical PK
+         switch ( menuOption ) {
             case 1: //Publisher Menu Options
                System.out.println("\n== Publishers ==\nChoose an option:\n1. Add New Publisher\n" +
                        "2. List Publisher Information\n3. Publisher Primary Key Information\n4. Return to Main Menu");
@@ -229,7 +229,7 @@ public class JPA_Books {
                EntityTransaction booktx = manager.getTransaction();
                booktx.begin();
 
-               switch ( bookMenuOption ) { //TODO: Gracefully handle exceptions that occur when books have indentical PK
+               switch ( bookMenuOption ) {
                   case 1: //good
                      System.out.println("\n== Add New Book ==");
 
@@ -375,7 +375,7 @@ public class JPA_Books {
                              + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity().getName() + "\n");
                      break;
 
-                  case 5: //TODO: Newly added books are not displayed
+                  case 5:
                      System.out.println("\n== Book Primary Key Information ==\n");
                      List<Books> bookPKs = books.getBookPKs();
                      for( int i = 0; i < bookPKs.size(); i++ ) {
@@ -461,6 +461,8 @@ public class JPA_Books {
                      System.out.println("Please select one of the above Ad Hoc Teams to add the Individual Author to: ");
                      int teamSelection = getIntRange(1, adHocTeams.size());
                      AdHocTeams teamChoice = adHocTeams.get(teamSelection-1);
+
+
 
                      teamChoice.addIndividualAuthor(individualChoice);
                      System.out.println("Individual Author " + individualChoice.getName() + " has been added to the Ad Hoc Team " + teamChoice.getName());
