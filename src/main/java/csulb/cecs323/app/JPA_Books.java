@@ -76,6 +76,16 @@ public class JPA_Books {
 
       tx.begin();
 
+      // List of owners that I want to persist.  I could just as easily done this with the seed-data.sql
+      //List <Owners> owners = new ArrayList<Owners>();
+      // Load up my List with the Entities that I want to persist.  Note, this does not put them
+      // into the database.
+      //owners.add(new Owners("Reese", "Mike", "714-892-5544"));
+      //owners.add(new Owners("Leck", "Carl", "714-321-3729"));
+      //owners.add(new Owners("Guitierez", "Luis", "562-982-2899"));
+      // Create the list of owners in the database.
+      //carclub.createEntity (owners);
+
       // Commit the changes so that the new data persists and is visible to other users.
       tx.commit();
       LOGGER.fine("End of Transaction");
@@ -164,7 +174,7 @@ public class JPA_Books {
                publishertx.begin();
 
                switch ( publisherMenuOption ) {
-                  case 1: //good
+                  case 1:
                      System.out.println("\n== Add New Publisher ==");
 
                      System.out.println("Enter publisher name: ");
@@ -181,7 +191,7 @@ public class JPA_Books {
                      publishersAttributes.clear();
                      break;
 
-                  case 2: //good
+                  case 2:
                      System.out.println("\n== List Publisher Information ==");
 
                      for( int i = 0; i < publishers.size(); i++ ) {
@@ -194,12 +204,17 @@ public class JPA_Books {
                              + publisherChoice.getEmail() + "\nPublisher phone number: " + publisherChoice.getPhone());
                      break;
 
-                  case 3: //good
+                  case 3:
                      System.out.println("\n== Publisher Primary Key Information ==");
-                     List<Publishers> publisherPKs = books.getPublisherPKs();
-                     for( int i = 0; i < publisherPKs.size(); i++ ) {
-                        System.out.println(publisherPKs.get(i).getName() + "\n");
+                     for( int i = 0; i < publishers.size(); i++ ) {
+                        System.out.println((i+1) + ": " + publishers.get(i).getName() + "\n");
                      }
+                     System.out.println("Please select one of the above publishers' primary key information to list: ");
+                     publisherSelection = getIntRange(1, publishers.size());
+                     publisherChoice = publishers.get(publisherSelection-1);
+                     //TODO: What is the PK of Publisher?
+                     System.out.println("\nPublisher email: " + publisherChoice.getEmail()
+                             + "\nPublisher phone number: " + publisherChoice.getPhone());
                      break;
 
                   case 4: //Return to Main Menu
@@ -432,12 +447,6 @@ public class JPA_Books {
       List<Publishers> publishers =
               this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
       return publishers;
-   }
-
-   public List<Publishers> getPublisherPKs() { // Retrieves all publisher PKs into a list
-      List<Publishers> publisherPKs =
-              this.entityManager.createNamedQuery("ReturnPublisherPKs", Publishers.class).getResultList();
-      return publisherPKs;
    }
 
    /**

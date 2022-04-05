@@ -18,10 +18,10 @@ import javax.persistence.DiscriminatorValue;
 
 @DiscriminatorValue("Writing Groups")
 public class WritingGroups extends AuthoringEntities {
-    @Column(length = 20)
+    @Column(nullable = false, length = 20)
     private String headWriter;
 
-    @Column(length = 4)
+    @Column(nullable = false, length = 4)
     private int yearFormed;
 
     /** Returns this specific authoring entity type as "Writing Group"
