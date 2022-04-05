@@ -41,7 +41,7 @@ import javax.persistence.*;
 @NamedNativeQuery(
         name="ReturnBookPKs",
         query = "SELECT title, ISBN " +
-                "FROM   BOOKS " +
+                "FROM   books " +
                 "ORDER BY title asc ",
         resultClass = Books.class
 )

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * A simple application to demonstrate how to persist an object in JPA.
@@ -60,7 +61,7 @@ public class JPA_Books {
    }
 
    public static void main(String[] args) {
-
+      LOGGER.setLevel(Level.OFF);
       LOGGER.fine("Creating EntityManagerFactory and EntityManager");
       EntityManagerFactory factory = Persistence.createEntityManagerFactory("JPA_Books");
       EntityManager manager = factory.createEntityManager();
@@ -152,6 +153,9 @@ public class JPA_Books {
          int authorSelection = 0;
          AuthoringEntities authorChoice = null;
 
+         int groupSelection = 0;
+         WritingGroups groupChoice = null;
+
          switch ( menuOption ) {
             case 1: //Publisher Menu Options
                System.out.println("\n== Publishers ==\nChoose an option:\n1. Add New Publisher\n" +
@@ -203,8 +207,7 @@ public class JPA_Books {
                      break;
 
                   case 4: //Return to Main Menu
-                     System.out.println("Exiting Program...");
-                     valid = false;
+                     System.out.println("Returning to Main Menu...");
                      break;
                }
 
@@ -316,7 +319,7 @@ public class JPA_Books {
                              + "\nAuthoring Entity: " + bookChoice.getAuthoringEntity().getName());
                      break;
 
-                  case 5: //good, most likely. TODO: Check if Brown likes book title + ISBN for book PK info
+                  case 5: //TODO: Newly added books are not displayed
                      System.out.println("\n== Book Primary Key Information ==");
                      List<Books> bookPKs = books.getBookPKs();
                      for( int i = 0; i < bookPKs.size(); i++ ) {
@@ -337,59 +340,83 @@ public class JPA_Books {
                int authorMenuOption = getIntRange(1,7);
 
                switch ( authorMenuOption ) {
-                  case 1:
+                  case 1: //good
                      System.out.println("\n== Add Writing Group ==");
-                     System.out.println("Please enter the name of the Head Author:");
+
+                     System.out.println("Please enter the name of the writing group:");
+                     String grpName = getString();
+                     System.out.println("Please enter the E-mail of the writing group:");
+                     String grpEmail = getString();
+                     System.out.println("Please enter the name of the head author:");
                      String grpHeadAuth = getString();
-                     System.out.println("Please enter the E-mail of the Head Author:");
-                     String grpHeadMail = getString();
-                     System.out.println("Please enter the year of publishing:");
-                     int grpYear = getIntRange(1440,2022);
+                     System.out.println("Please enter the year the writing group was formed:");
+                     int grpYearFormed = getIntRange(1440,2022);
 
-
-
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     WritingGroups newGroup = new WritingGroups(grpName, grpEmail, grpHeadAuth, grpYearFormed); //creates new writing group based on input
+                     writingGroups.add(newGroup); //add new writing group to writingGroups and authoringEntities
+                     authoringEntities.add(newGroup);
+                     books.createEntity(writingGroups); //persists new writing group within writingGroups and authoringEntities ArrayLists
+                     books.createEntity(authoringEntities);
                      break;
-                  case 2:
+                  case 2: //good
                      System.out.println("\n== Add Individual Author ==");
                      System.out.println("Enter the Author's Name:");
-                     String GetIndAuthName =getString();
+                     String indAuthName = getString();
                      System.out.println("Enter the Authors Email:");
-                     String GetIndAuthMail = getString();
-                     /** Not sure how to implement this part,
-                      * So basically looking at lines 29 to 31 in individual authors
-                      * Should the email and the name be in an array?
-                      *
-                      *IndividualAuthors.add(GetIndAuthMail,GetIndAuthName);
-                      */
-                     //IndividualAuthors New IndividualAuthors = new;
-                     //System.out.println("[OPTION NOT IMPLEMENTED]");
+                     String indAuthMail = getString();
+                     IndividualAuthors newIndividual = new IndividualAuthors(indAuthName, indAuthMail); //creates new individual author based on input
+                     individualAuthors.add(newIndividual);
+                     authoringEntities.add(newIndividual);
+                     books.createEntity(individualAuthors);
+                     books.createEntity(authoringEntities);
                      break;
-                  case 3:
+                  case 3: //good
                      System.out.println("\n== Add Ad Hoc Team ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     System.out.println("Enter the team's name:");
+                     String teamName = getString();
+                     System.out.println("Enter the team's email:");
+                     String teamMail = getString();
+                     AdHocTeams newTeam = new AdHocTeams(teamName, teamMail); //creates new team based on input
+                     adHocTeams.add(newTeam);
+                     authoringEntities.add(newTeam);
+                     books.createEntity(adHocTeams);
+                     books.createEntity(authoringEntities);
                      break;
                   case 4:
                      System.out.println("\n== Add Author to Ad Hoc Team ==");
-                     System.out.println("Please write main AdHoc Author Name:");
-                     String ADH_MainName = getString();
-                     //Add Code Here team name email
-                     System.out.println("Please write the AdHoc Team Name:");
-                     String ADHName = getString();
-                     System.out.println("Please enter the AdHoc Email:");
-                     String ADHMail = getString();
-                     //System.out.println("[OPTION NOT IMPLEMENTED]");
+                     for( int i = 0; i < individualAuthors.size(); i++ ) {
+                        System.out.println((i+1) + ": " + individualAuthors.get(i).getName() + "\n");
+                     }
+                     System.out.println("Please select one of the above Individual Authors to add to an Ad Hoc Team: ");
+                     int individualSelection = getIntRange(1, individualAuthors.size());
+                     IndividualAuthors individualChoice = individualAuthors.get(individualSelection-1);
+
+                     for( int i = 0; i < adHocTeams.size(); i++ ) {
+                        System.out.println((i+1) + ": " + adHocTeams.get(i).getName() + "\n");
+                     }
+                     System.out.println("Please select one of the above Ad Hoc Teams to add the Individual Author to: ");
+                     int teamSelection = getIntRange(1, adHocTeams.size());
+                     AdHocTeams teamChoice = adHocTeams.get(teamSelection-1);
+
+                     teamChoice.addIndividualAuthor(individualChoice);
+                     System.out.println("Individual Author " + individualChoice.getName() + " has been added to the Ad Hoc Team " + teamChoice.getName());
                      break;
-                  case 5:
+                  case 5: //good
                      System.out.println("\n== List Writing Group Information ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     for( int i = 0; i < writingGroups.size(); i++ ) {
+                        System.out.println((i+1) + ": " + writingGroups.get(i).getName() + "\n");
+                     }
+                     System.out.println("Please select one of the above writing group' information to list: ");
+                     groupSelection = getIntRange(1, writingGroups.size());
+                     groupChoice = writingGroups.get(groupSelection-1);
+                     System.out.println("Writing group name: " + groupChoice.getName() + "\nWriting group email: " + groupChoice.getEmail()
+                     + "\nWriting group head writer: " + groupChoice.getHeadWriter() + "\nWriting group year formed: " + groupChoice.getYearFormed() + "\n");
                      break;
-                  case 6:
+                  case 6: //good
                      System.out.println("\n== Authoring Entity Primary Key Information ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     for( int i = 0; i < authoringEntities.size(); i++ ) {
+                        System.out.println(authoringEntities.get(i).getName() + ", " + authoringEntities.get(i).getEmail() + "\n");
+                     }
                      break;
                   case 7: //Return to Main Menu
                      System.out.println("");
@@ -447,6 +474,7 @@ public class JPA_Books {
               this.entityManager.createNamedQuery("ReturnPublisherPKs", Publishers.class).getResultList();
       return publisherPKs;
    }
+
 
    /**
     * Checks if the inputted value is an integer and

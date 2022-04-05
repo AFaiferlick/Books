@@ -26,13 +26,6 @@ import javax.persistence.*;
         resultClass = AuthoringEntities.class
 )
 
-@NamedNativeQuery(
-        name="ReturnAuthoringEntityPK",
-        query = "SELECT email, authoringEntityType " +
-                "FROM authoringEntities",
-        resultClass = AuthoringEntities.class
-)
-
 /**
  * A writer of a book. Could be a single individual, a writing group, or an AD Hoc Team.
  */
