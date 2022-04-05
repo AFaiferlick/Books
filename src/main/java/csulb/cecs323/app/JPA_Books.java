@@ -313,11 +313,12 @@ public class JPA_Books {
                      break;
                   case 4:
                      System.out.println("\n== List Book Information ==");
-                     System.out.println("------- Available Books: -------\n")
+                     System.out.println("------- Available Books: -------\n");
                      for( int i = 0; i < booksList.size(); i++ ) {
                         System.out.println((i+1) + ": " + booksList.get(i).getTitle() + "\n");
                      }
-                     System.out.println("To list book information, please select one of the books from the above list [1-" + booksList.size() + "]: ");
+                     System.out.println("To list book information, please select one of the books from the above " +
+                             "list [1-" + booksList.size() + "]: ");
                      int bookSelection = getIntRange(1, booksList.size());
                      Books bookChoice = booksList.get(bookSelection-1);
 
@@ -344,13 +345,22 @@ public class JPA_Books {
             case 3: //Authoring Entities Options
                System.out.println("\n== Authoring Entities ==\nChoose an option:\n1. Add Writing Group\n" +
                        "2. Add Individual Author\n3. Add Ad Hoc Team\n4. Add Author to Ad Hoc Team\n" +
-                       "5. List Writing Group Information\n6. Authoring Entitiy Primary Key Information\n7. Return to Main Menu");
+                       "5. List Writing Group Information\n6. Authoring Entitiy Primary Key Information" +
+                       "\n7. Return to Main Menu");
                int authorMenuOption = getIntRange(1,7);
 
                switch ( authorMenuOption ) {
                   case 1:
                      System.out.println("\n== Add Writing Group ==");
-                     //Add Code Here
+                     System.out.println("Please enter the name of the Head Author:");
+                     String grpHeadAuth = getString();
+                     System.out.println("Please enter the E-mail of the Head Author:");
+                     String grpHeadMail = getString();
+                     System.out.println("Please enter the year of publishing:");
+                     int grpYear = getIntRange(1440,2022);
+
+
+
                      System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 2:
@@ -375,8 +385,14 @@ public class JPA_Books {
                      break;
                   case 4:
                      System.out.println("\n== Add Author to Ad Hoc Team ==");
-                     //Add Code Here
-                     System.out.println("[OPTION NOT IMPLEMENTED]");
+                     System.out.println("Please write main AdHoc Author Name:");
+                     String ADH_MainName = getString();
+                     //Add Code Here team name email
+                     System.out.println("Please write the AdHoc Team Name:");
+                     String ADHName = getString();
+                     System.out.println("Please enter the AdHoc Email:");
+                     String ADHMail = getString();
+                     //System.out.println("[OPTION NOT IMPLEMENTED]");
                      break;
                   case 5:
                      System.out.println("\n== List Writing Group Information ==");
@@ -428,7 +444,8 @@ public class JPA_Books {
    }
 
    public List<Publishers> getPublisherList() { // Retrieves all publishers into a list
-      List<Publishers> publishers = this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
+      List<Publishers> publishers =
+              this.entityManager.createNamedQuery("ReturnAllPublishers", Publishers.class).getResultList();
       return publishers;
    }
 
