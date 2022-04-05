@@ -423,17 +423,9 @@ public class JPA_Books {
                      } else {
                         System.out.println("Sorry, this publisher already exists within the database!");
                      }
-
-
-
-
-                     WritingGroups newGroup = new WritingGroups(grpName, grpEmail, grpHeadAuth, grpYearFormed); //creates new writing group based on input
-                     writingGroups.add(newGroup); //add new writing group to writingGroups and authoringEntities
-                     authoringEntities.add(newGroup);
-                     books.createEntity(writingGroups); //persists new writing group within writingGroups and authoringEntities ArrayLists
-                     books.createEntity(authoringEntities);
                      break;
-                  case 2: //good
+                  case 2: // Add Individual Author
+
                      System.out.println("\n== Add Individual Author ==");
                      System.out.println("Enter the Author's Name:");
                      String indAuthName = getString();
@@ -445,7 +437,8 @@ public class JPA_Books {
                      books.createEntity(individualAuthors);
                      books.createEntity(authoringEntities);
                      break;
-                  case 3: //good
+                  case 3: // Add Ad Hoc Team
+
                      System.out.println("\n== Add Ad Hoc Team ==");
                      System.out.println("Enter the team's name:");
                      String teamName = getString();
