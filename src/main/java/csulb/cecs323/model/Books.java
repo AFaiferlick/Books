@@ -54,6 +54,22 @@ import javax.persistence.*;
         resultClass = Books.class
 )
 
+@NamedNativeQuery(
+        name="ReturnBooksWithTitleAuthor",
+        query = "SELECT * " +
+                "FROM   books " +
+                "WHERE  title = ? AND authoringEntityName = ? ",
+        resultClass = Books.class
+)
+
+@NamedNativeQuery(
+        name="ReturnBooksWithTitlePublisher",
+        query = "SELECT * " +
+                "FROM   books " +
+                "WHERE  title = ? AND publisherName = ? ",
+        resultClass = Books.class
+)
+
 /**
  * A long written or printed literary composition.
  */
@@ -72,15 +88,14 @@ public class Books {
     private int yearPublished;
 
     @ManyToOne
-    @JoinColumn(name = "publisher_name",
+    @JoinColumn(name = "publisherName",
             referencedColumnName = "name")
     /**  The publishing company of the book. **/
     private Publishers publisher;
 
     @ManyToOne
-    @JoinColumn(name = "authoring_entity_name",
+    @JoinColumn(name = "authoringEntityName",
             referencedColumnName = "name")
-
     /**  The authoring entity of the book. **/
     private AuthoringEntities authoringEntity;
 

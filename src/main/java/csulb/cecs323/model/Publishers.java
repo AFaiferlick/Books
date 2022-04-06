@@ -40,7 +40,7 @@ import javax.persistence.NamedNativeQuery;
 
 @NamedNativeQuery(
         name="ReturnPublishersWithEmail",
-        query = "SELECT EMAIL " +
+        query = "SELECT * " +
                 "FROM   PUBLISHERS " +
                 "WHERE  EMAIL = ? ",
         resultClass = Publishers.class
@@ -48,7 +48,7 @@ import javax.persistence.NamedNativeQuery;
 
 @NamedNativeQuery(
         name="ReturnPublishersWithPhone",
-        query = "SELECT PHONE " +
+        query = "SELECT * " +
                 "FROM   PUBLISHERS " +
                 "WHERE  PHONE = ? ",
         resultClass = Publishers.class

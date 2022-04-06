@@ -259,12 +259,26 @@ public class JPA_Books {
                      authorSelection = getIntRange(1, authoringEntities.size());
                      authorChoice = authoringEntities.get(authorSelection-1);
 
+                     /*
+                     List<Publishers> pubsWithName = books.getPublishersWithName(pubName);
+                     List<Publishers> pubsWithEmail = books.getPublishersWithEmail(pubEmail);
+                     List<Publishers> pubsWithPhone = books.getPublishersWithPhone(pubPhone);
+                     if (pubsWithName.size() == 0 && pubsWithEmail.size() == 0 && pubsWithPhone.size() == 0) { //if ALL uniqueness constraints are enforced
+                        publishers.add(new Publishers(pubName, pubPhone, pubEmail));
+                        books.createEntity(publishers);  //persist publishers right after being created
+                     } else {
+                        System.out.println("Sorry, a Publisher with this information already exists within the database!");
+                     }
+                     */
+
                      List<Books> booksWithISBN = books.getBooksWithISBN(ISBN);
-                     if (booksWithISBN.size() == 0) {
+                     List<Books> booksWithTitleAuthor = books.getBooksWithTitleAuthor(bookTitle, authorChoice.getName());
+                     List<Books> booksWithTitlePublisher = books.getBooksWithTitlePublisher(bookTitle, publisherChoice.getName());
+                     if (booksWithISBN.size() == 0 && booksWithTitleAuthor.size() == 0 && booksWithTitlePublisher.size() == 0) {
                         booksList.add(0, new Books(ISBN, bookTitle, yearPublished, publisherChoice, authorChoice)); //creates new book based on input
                         books.createEntity(booksList); //persists new book within bookList ArrayList
                      } else {
-                        System.out.println("Sorry, this book ISBN already exists within the database!");
+                        System.out.println("Sorry, a Book with this information already exists within the database!");
                      }
 
                      break;
@@ -608,6 +622,18 @@ public class JPA_Books {
       List<Publishers> publishersWithPhone = this.entityManager.createNamedQuery("ReturnPublishersWithPhone",
               Publishers.class).setParameter(1, phone).getResultList();
       return publishersWithPhone;
+   }
+
+   public List<Books> getBooksWithTitleAuthor(String title, String authorName) { // Retrieves all books with this title and author into a list
+      List<Books> booksWithTitleAuthor = this.entityManager.createNamedQuery("ReturnBooksWithTitleAuthor",
+              Books.class).setParameter(1, title).setParameter(2, authorName).getResultList();
+      return booksWithTitleAuthor;
+   }
+
+   public List<Books> getBooksWithTitlePublisher(String title, String publisherName) { // Retrieves all books with this title and Publisher into a list
+      List<Books> booksWithTitlePublisher = this.entityManager.createNamedQuery("ReturnBooksWithTitlePublisher",
+              Books.class).setParameter(1, title).setParameter(2, publisherName).getResultList();
+      return booksWithTitlePublisher;
    }
 
    public List<Books> getBooksWithISBN(String ISBN) { // Retrieves all books with this isbn into a list
