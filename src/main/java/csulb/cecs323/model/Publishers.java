@@ -11,7 +11,7 @@ import javax.persistence.NamedNativeQuery;
         name="ReturnPublisher",
         query = "SELECT * " +
                 "FROM   PUBLISHERS " +
-                "WHERE  name = ? ",
+                "WHERE  NAME = ? ",
         resultClass = Publishers.class
 )
 
@@ -24,17 +24,33 @@ import javax.persistence.NamedNativeQuery;
 
 @NamedNativeQuery(
         name="ReturnPublisherPKs",
-        query = "SELECT name " +
+        query = "SELECT NAME " +
                 "FROM   PUBLISHERS " +
-                "ORDER BY name asc ",
+                "ORDER BY NAME asc ",
         resultClass = Publishers.class
 )
 
 @NamedNativeQuery(
         name="ReturnPublishersWithName",
-        query = "SELECT name " +
+        query = "SELECT NAME " +
                 "FROM   PUBLISHERS " +
-                "WHERE  name = ? ",
+                "WHERE  NAME = ? ",
+        resultClass = Publishers.class
+)
+
+@NamedNativeQuery(
+        name="ReturnPublishersWithEmail",
+        query = "SELECT EMAIL " +
+                "FROM   PUBLISHERS " +
+                "WHERE  EMAIL = ? ",
+        resultClass = Publishers.class
+)
+
+@NamedNativeQuery(
+        name="ReturnPublishersWithPhone",
+        query = "SELECT PHONE " +
+                "FROM   PUBLISHERS " +
+                "WHERE  PHONE = ? ",
         resultClass = Publishers.class
 )
 
@@ -43,15 +59,15 @@ import javax.persistence.NamedNativeQuery;
  */
 public class Publishers {
     @Id
-    @Column(nullable = false, length = 20)
+    @Column(name = "NAME", nullable = false, length = 20)
     /** The name of the publisher. Limited to 20 characters. */
     private String name;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "PHONE", nullable = false, length = 20)
     /** The phone number of the publisher.  Limited to 20 characters. */
     private String phone;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "EMAIL", nullable = false, length = 50)
     /** The email of the publisher.  Limited to 50 characters. */
     private String email;
 

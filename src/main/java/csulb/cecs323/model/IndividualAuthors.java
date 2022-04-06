@@ -17,6 +17,7 @@ import javax.persistence.*;
 @DiscriminatorValue("Individual Authors")
 public class IndividualAuthors extends AuthoringEntities {
 
+    /** The list of Ad Hoc Teams of the Individual Author. */
     @ManyToMany
     @JoinTable(
             name = "MemberAdHocTeams"

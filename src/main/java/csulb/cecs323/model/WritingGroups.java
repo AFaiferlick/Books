@@ -10,9 +10,12 @@ import javax.persistence.DiscriminatorValue;
 @Entity
 @DiscriminatorValue("Writing Groups")
 public class WritingGroups extends AuthoringEntities {
+
+    /** The name of the head writer of the writing group. Limited to 20 characters. */
     @Column(length = 20)
     private String headWriter;
 
+    /** The year formed of the writing group. Limited to 4 characters. */
     @Column(length = 4)
     private int yearFormed;
 

@@ -78,8 +78,9 @@ public class Books {
     private Publishers publisher;
 
     @ManyToOne
-    @JoinColumn(name = "authority_entity_name",
+    @JoinColumn(name = "authoring_entity_name",
             referencedColumnName = "name")
+
     /**  The authoring entity of the book. **/
     private AuthoringEntities authoringEntity;
 

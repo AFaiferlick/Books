@@ -99,6 +99,7 @@ public class JPA_Books {
       List <WritingGroups> writingGroups = new ArrayList<WritingGroups>();
       List <IndividualAuthors> individualAuthors = new ArrayList<IndividualAuthors>();
       List <AdHocTeams> adHocTeams = new ArrayList<AdHocTeams>();
+      //List <AdHocTeams> adHocTeams = new ArrayList<AdHocTeams>();
 
       List <Books> newBook = new ArrayList<Books>();
       Scanner in = new Scanner( System.in );
@@ -179,11 +180,13 @@ public class JPA_Books {
                      String pubEmail = getString();
 
                      List<Publishers> pubsWithName = books.getPublishersWithName(pubName);
-                     if (pubsWithName.size() == 0) {
+                     List<Publishers> pubsWithEmail = books.getPublishersWithEmail(pubEmail);
+                     List<Publishers> pubsWithPhone = books.getPublishersWithPhone(pubPhone);
+                     if (pubsWithName.size() == 0 && pubsWithEmail.size() == 0 && pubsWithPhone.size() == 0) { //if ALL uniqueness constraints are enforced
                         publishers.add(new Publishers(pubName, pubPhone, pubEmail));
                         books.createEntity(publishers);  //persist publishers right after being created
                      } else {
-                        System.out.println("Sorry, this publisher already exists within the database!");
+                        System.out.println("Sorry, a Publisher with this information already exists within the database!");
                      }
 
                      break;
@@ -507,6 +510,7 @@ public class JPA_Books {
                      }
                      if (notDuplicate) {
                         teamChoice.addIndividualAuthor(individualChoice);
+                        //books.createEntity();
                         System.out.println("Individual Author " + individualChoice.getName() + " has been added to the Ad Hoc Team " + teamChoice.getName());
                      }
                      break;
@@ -592,6 +596,18 @@ public class JPA_Books {
       List<Publishers> publishersWithName = this.entityManager.createNamedQuery("ReturnPublishersWithName",
               Publishers.class).setParameter(1, name).getResultList();
       return publishersWithName;
+   }
+
+   public List<Publishers> getPublishersWithEmail(String email) { // Retrieves all publishers with this email into a list
+      List<Publishers> publishersWithEmail = this.entityManager.createNamedQuery("ReturnPublishersWithEmail",
+              Publishers.class).setParameter(1, email).getResultList();
+      return publishersWithEmail;
+   }
+
+   public List<Publishers> getPublishersWithPhone(String phone) { // Retrieves all publishers with this Phone into a list
+      List<Publishers> publishersWithPhone = this.entityManager.createNamedQuery("ReturnPublishersWithPhone",
+              Publishers.class).setParameter(1, phone).getResultList();
+      return publishersWithPhone;
    }
 
    public List<Books> getBooksWithISBN(String ISBN) { // Retrieves all books with this isbn into a list
