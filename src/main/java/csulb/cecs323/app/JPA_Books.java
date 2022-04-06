@@ -15,10 +15,8 @@ package csulb.cecs323.app;
 // Import all of the entity classes that we have written for this application.
 
 import csulb.cecs323.model.*;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -524,7 +522,7 @@ public class JPA_Books {
                      }
                      if (notDuplicate) {
                         teamChoice.addIndividualAuthor(individualChoice);
-                        //books.createEntity();
+                        individualChoice.addAdHocTeam(teamChoice);
                         System.out.println("Individual Author " + individualChoice.getName() + " has been added to the Ad Hoc Team " + teamChoice.getName());
                      }
                      break;
